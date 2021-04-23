@@ -859,18 +859,15 @@ void getBemfParam(uint8_t motorId) {
 
 void enableElectromagnetBrake(uint8_t motorId, bool bEnable) {
     electromagnetBrakeEnable[motorId] = bEnable;
-    #ifndef PROTOTYPE_R3
     if (bEnable) {
-        pinMode(brakePin[motorId], OUTPUT);
+        //pinMode(brakePin[motorId], OUTPUT);
     } else {
-        digitalWrite(brakePin[motorId], LOW);
+        setBrake(motorId, false);
     }
-    #endif
 }
 void enableElectromagnetBrake(OSCMessage& msg, int addrOffset) {
     uint8_t motorID = getInt(msg, 0);
     bool bEnable = getBool(msg, 1);
-    #ifndef PROTOTYPE_R4
     if(isCorrectMotorId(motorID)) {
         motorID -= MOTOR_ID_FIRST;
         enableElectromagnetBrake(motorID, bEnable);
@@ -880,7 +877,7 @@ void enableElectromagnetBrake(OSCMessage& msg, int addrOffset) {
             enableElectromagnetBrake(i, bEnable);
         }
     }
-    #endif
+
 }
 
 void setBrakeTransitionDuration(OSCMessage& msg, int addrOffset) {
@@ -2034,9 +2031,7 @@ void activate(uint8_t motorId, bool state) {
             if (state) { // from /free state
                 stepper[motorId].hardStop(); // to activate the motor current
             } else {
-                #ifndef PROTOTYPE_R3
-                digitalWrite(brakePin[motorId], LOW);
-                #endif
+                setBrake(motorId, LOW);
                 brakeStatus[motorId] = BRAKE_MOTORHIZ_WAITING;
                 brakeTransitionTrigTime[motorId] = millis();
             }    
@@ -2060,9 +2055,7 @@ void activate(OSCMessage& msg, int addrOffset) {
 }
 void free(uint8_t motorId) {
     if (electromagnetBrakeEnable[motorId]) {
-        #ifndef PROTOTYPE_R3
-        digitalWrite(brakePin[motorId], HIGH);
-        #endif
+        setBrake(motorId, HIGH);
         stepper[motorId].hardHiZ();
         brakeStatus[motorId] = BRAKE_DISENGAGED;
     } else {

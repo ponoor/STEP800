@@ -27,6 +27,7 @@ int getInt(OSCMessage &msg, uint8_t offset);
 float getFloat(OSCMessage &msg, uint8_t offset);
 bool getBool(OSCMessage &msg, uint8_t offset);
 
+void setBrake(uint8_t motorId, bool state);
 bool isBrakeDisEngaged(uint8_t motorId);
 bool checkMotionStartConditions(uint8_t motorId, bool dir);
 

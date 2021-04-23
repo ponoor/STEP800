@@ -27,6 +27,11 @@ AutoDriver stepper[] = {
 	AutoDriver(1, L6470_CS_PIN, L6470_RESET_PIN),
 	AutoDriver(0, L6470_CS_PIN, L6470_RESET_PIN)
 };
+// Shift Register SPI
+#ifndef PROTOTYPE_BLACK
+SPIClass SPI3(&sercom2, MISO3, SCK3, MOSI3, SPI_PAD_0_SCK_3, SERCOM_RX_PAD_1);
+#endif
+
 // Network
 uint8_t mac[] = { 0x60, 0x95, 0xCE, 0x10, 0x06, 0x00 },
 myId = 0;
@@ -47,6 +52,9 @@ boolean
     bootedMsgEnable,
     reportErrors = true;
 boolean isWaitingSendBootMsg = false;
+#ifdef HAS_BRAKE
+uint8_t brakeOut = 0;
+#endif
 uint8_t brakeStatus[NUM_OF_MOTOR] = { 0,0,0,0,0,0,0,0 }; 
 uint32_t brakeTransitionTrigTime[NUM_OF_MOTOR];
 bool bBrakeDecWaiting[NUM_OF_MOTOR] = { 0,0,0,0,0,0,0,0 };

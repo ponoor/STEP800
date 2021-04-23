@@ -12,39 +12,84 @@
 #include <Ponoor_L6470Library.h>
 #include <Ethernet.h>
 
-#define PROTOTYPE_R3 // Uncomment this line for the prototype r4 pcb.
+// =============================================================================
+// Board / Pin definitions
+// =============================================================================
+#define PROTOTYPE_BLACK // First Black PCB prototype
+//#define PROTOTYPE_R3 // Uncomment this line for the prototype r4 pcb.
 // r3: revision anno lab 2020
 // r4: with brake connector 2021 (production ver)
+
+
+#ifdef PROTOTYPE_R3 // ----------------- Prototype r3 -----------------
+    #define HAS_SD
+    #define ledPin	13u
+    // L6470
+    #define L6470_MISO	6	// D6 /SERCOM3/PAD[2] miso
+    #define L6470_MOSI	11	// D11/SERCOM3/PAD[0] mosi
+    #define L6470_SCK	12	// D12/SERCOM3/PAD[3] sck
+
+    #define L6470_CS_PIN A0
+    #define L6470_RESET_PIN A2
+    // Shift registers
+    // 74HC165 shift register for dip switch and busy/flag input
+    #define MISO3	3 // SERCOM2/PAD[1]
+    #define MOSI3	4 // SERCOM2/PAD[0] // dummy
+    #define SCK3	0 // SERCOM2/PAD[3]
+    #define LATCH3	A5
+    // Shift registers SPI
+    extern SPIClass SPI3;
+
+    // W5500
+    #define W5500_RESET_PIN A3
+
+    #define SETUP_SW_PIN	5u
+#elif defined(PROTOTYPE_BLACK) // ----------------- Prototype D_L6470x8_black -----------------
+    #define ledPin	4u
+    // L6470
+    #define L6470_MISO	12	// 
+    #define L6470_MOSI	11	// 
+    #define L6470_SCK	13	// 
+    #define L6470_CS_PIN 9
+    #define L6470_RESET_PIN 7
+    // Shift Registers
+    #define MISO3   A3
+    #define LATCH3  A1
+    #define SCK3    A2
+    // W5500
+    #define W5500_RESET_PIN 8
+#else // ----------------- Product version -----------------
+    #define HAS_SD
+    #define HAS_BRAKE
+    #define ledPin	13u
+    // L6470
+    #define L6470_MISO	6	// D6 /SERCOM3/PAD[2] miso
+    #define L6470_MOSI	11	// D11/SERCOM3/PAD[0] mosi
+    #define L6470_SCK	12	// D12/SERCOM3/PAD[3] sck
+
+    #define L6470_CS_PIN A0
+    #define L6470_RESET_PIN A2
+    // Shift registers
+    // 74HC165 +74HC595 for the dip sw input and the brake output
+    #define MISO3	3 // SERCOM2/PAD[1]
+    #define MOSI3	4 // SERCOM2/PAD[0]
+    #define SCK3	0 // SERCOM2/PAD[3]
+    #define LATCH3	A5
+    // Shift registers SPI
+    extern SPIClass SPI3;
+
+    // W5500
+    #define W5500_RESET_PIN A3
+
+    #define SHIFTOUT_ENABLE_PIN 5u
+#endif
 
 // =============================================================================
 // Pin definitions
 // =============================================================================
-#define ledPin	13u
-
-
+#ifdef HAS_SD
 #define SD_CS_PIN	4u
 #define SD_DETECT_PIN   A4
-
-// L6470
-#define L6470_MISO	6	// D6 /SERCOM3/PAD[2] miso
-#define L6470_MOSI	11	// D11/SERCOM3/PAD[0] mosi
-#define L6470_SCK	12	// D12/SERCOM3/PAD[3] sck
-
-#define L6470_CS_PIN A0
-#define L6470_RESET_PIN A2
-
-// Shift registers
-// 74HC165 shift register for dip switch and busy/flag input
-#define MISO3	3 // SERCOM2/PAD[1]
-#define MOSI3	4 // SERCOM2/PAD[0] // dummy
-#define SCK3	0 // SERCOM2/PAD[3]
-#define LATCH3	A5
-
-// W5500
-#define W5500_RESET_PIN A3
-
-#ifdef PROTOTYPE_R3
-#define SETUP_SW_PIN	5u
 #endif
 
 // =============================================================================
@@ -105,6 +150,9 @@ extern bool
 // Motor settings.
 
 // Brake
+#ifdef HAS_BRAKE
+extern uint8_t brakeOut;
+#endif
 extern uint8_t brakeStatus[NUM_OF_MOTOR];
 enum {
     BRAKE_ENGAGED = 0,

@@ -28,6 +28,29 @@ uint8_t getMyId() {
     //     pinMode(dipSwPin[i], INPUT_PULLUP);
     //     _id |= (!digitalRead(dipSwPin[i])) << i;
     // }
+#ifdef PROTOTYPE_R3
+    byte shiftInByte[3];
+    digitalWrite(LATCH3, LOW);
+    digitalWrite(LATCH3, HIGH);
+    for (uint8_t i = 0; i < 3; i++) {
+        shiftInByte[i] = SPI3.transfer(0);
+    }
+    _id = shiftInByte[2];
+#elif defined(PROTOTYPE_BLACK)
+    byte shiftInByte[3];
+    digitalWrite(LATCH3, LOW);
+    digitalWrite(LATCH3, HIGH);
+    for (uint8_t i = 0; i < 3; i++) {
+        shiftInByte[i] = shiftIn(MISO3, SCK3, LSBFIRST);
+    }
+    _id = shiftInByte[2]; // not verified yet
+#else
+    digitalWrite(LATCH3, LOW);
+    digitalWrite(LATCH3, HIGH);
+    SPI3.transfer(brakeOut);
+    _id = SPI3.transfer(0);
+    _id = ~_id;
+#endif
     return _id;
 }
 
@@ -149,6 +172,16 @@ bool getBool(OSCMessage &msg, uint8_t offset)
     }
 	return msgVal;
     
+}
+
+void setBrake(uint8_t motorId, bool state) {
+#ifdef HAS_BRAKE
+    if (state) {
+        bitSet(brakeOut, motorId);
+    } else {
+        bitClear(brakeOut, motorId);
+    }
+#endif
 }
 
 void sendCommandError(uint8_t motorId, uint8_t errorNum)
