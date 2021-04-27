@@ -95,7 +95,7 @@ void setup() {
     // Shift Registers
 	SPI3.begin();
 	pinPeripheral(MISO3, PIO_SERCOM_ALT);	// MISO
-	pinPeripheral(MOSI3, PIO_SERCOM_ALT);	// MOSI, not in use at Proto_r3
+	pinPeripheral(MOSI3, PIO_SERCOM);	// MOSI
 	pinPeripheral(SCK3, PIO_SERCOM_ALT);		// SCK
 	SPI3.beginTransaction(SPISettings(4000000, MSBFIRST, SPI_MODE0));
 	pinMode(LATCH3, OUTPUT);
@@ -286,6 +286,28 @@ void checkLED(uint32_t _currentTimeMillis) {
     }
 }
 
+void checkBrake(uint32_t _currentTimeMillis) {
+    for (uint8_t i = 0; i < NUM_OF_MOTOR; i++)
+    {
+        if (electromagnetBrakeEnable[i]) {
+            if (brakeStatus[i] == BRAKE_DISENGAGE_WAITING) {
+                if ((uint32_t)(_currentTimeMillis - brakeTransitionTrigTime[i]) >= brakeTransitionDuration[i]) {
+                    #ifdef HAS_BRAKE
+                    setBrake(i, HIGH);
+                    #endif
+                    brakeStatus[i] = BRAKE_DISENGAGED;
+                }
+            } else if (brakeStatus[i] == BRAKE_MOTORHIZ_WAITING) {
+                if ((uint32_t)(_currentTimeMillis - brakeTransitionTrigTime[i]) >= brakeTransitionDuration[i]) {
+                    stepper[i].hardHiZ();
+                    brakeStatus[i] = BRAKE_ENGAGED;
+                }
+            }
+        }
+    }
+    
+}
+
 void checkHomingTimeout(uint32_t _currentTimeMillis) {
     for (uint8_t i = 0; i < NUM_OF_MOTOR; i++) {
         if ((homingStatus[i] == HOMING_GOUNTIL) && (goUntilTimeout[i] > 0)) {
@@ -355,7 +377,9 @@ void loop() {
     if ((uint32_t)(currentTimeMillis - lastPollTime) >= STATUS_POLL_PERIOD)
     {
         //checkLimitSw();
-        //checkBrake(currentTimeMillis);
+#ifdef HAS_BRAKE
+        checkBrake(currentTimeMillis);
+#endif
         checkHomingTimeout(currentTimeMillis);
         checkStatus();
         checkLED(currentTimeMillis);

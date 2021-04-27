@@ -29,7 +29,7 @@ AutoDriver stepper[] = {
 };
 // Shift Register SPI
 #ifndef PROTOTYPE_BLACK
-SPIClass SPI3(&sercom2, MISO3, SCK3, MOSI3, SPI_PAD_0_SCK_3, SERCOM_RX_PAD_1);
+SPIClass SPI3(&sercom2, MISO3, SCK3, MOSI3, SPI_PAD_2_SCK_3, SERCOM_RX_PAD_1);
 #endif
 
 // Network

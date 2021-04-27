@@ -1956,17 +1956,17 @@ void hardStop(OSCMessage& msg, int addrOffset) {
     }
 }
 
-void softHiZ(uint8_t motorID) {
-    isServoMode[motorID] = false;
-    if (electromagnetBrakeEnable[motorID]) {
-        if (motorStatus[motorID] == 0) { // motor stopped
-            activate(motorID, false);
+void softHiZ(uint8_t motorId) {
+    isServoMode[motorId] = false;
+    if (electromagnetBrakeEnable[motorId]) {
+        if (motorStatus[motorId] == 0) { // motor stopped
+            activate(motorId, false);
         } else {
-            stepper[motorID].softStop();
-            bBrakeDecWaiting[motorID] = true;
+            stepper[motorId].softStop();
+            bBrakeDecWaiting[motorId] = true;
         }
     } else {
-        stepper[motorID].softHiZ();
+        stepper[motorId].softHiZ();
     }
 }
 void softHiZ(OSCMessage& msg, int addrOffset) {

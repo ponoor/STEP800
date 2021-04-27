@@ -15,7 +15,7 @@
 // =============================================================================
 // Board / Pin definitions
 // =============================================================================
-#define PROTOTYPE_BLACK // First Black PCB prototype
+//#define PROTOTYPE_BLACK // First Black PCB prototype
 //#define PROTOTYPE_R3 // Uncomment this line for the prototype r4 pcb.
 // r3: revision anno lab 2020
 // r4: with brake connector 2021 (production ver)
@@ -34,7 +34,7 @@
     // Shift registers
     // 74HC165 shift register for dip switch and busy/flag input
     #define MISO3	3 // SERCOM2/PAD[1]
-    #define MOSI3	4 // SERCOM2/PAD[0] // dummy
+    #define MOSI3   2 // SERCOM2/PAD[2] // not in use
     #define SCK3	0 // SERCOM2/PAD[3]
     #define LATCH3	A5
     // Shift registers SPI
@@ -72,7 +72,7 @@
     // Shift registers
     // 74HC165 +74HC595 for the dip sw input and the brake output
     #define MISO3	3 // SERCOM2/PAD[1]
-    #define MOSI3	4 // SERCOM2/PAD[0]
+    #define MOSI3   2 // SERCOM2/PAD[2]
     #define SCK3	0 // SERCOM2/PAD[3]
     #define LATCH3	A5
     // Shift registers SPI
