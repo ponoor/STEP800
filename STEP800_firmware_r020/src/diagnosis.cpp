@@ -108,6 +108,11 @@ void printCurrentState() {
 	}
 	SerialUSB.println(s);
 	showBoolResult(F("isDestIpSet"), isDestIpSet);
+	showIpAddress(F("Destination Ip"), destIp);
+	showIpAddress(F("Current My Ip"), myIp);
+	p("Current MAC address : %02X:%02X:%02X:%02X:%02X:%02X\n",mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
+	p("Current outPort : %d\n", outPort);
+
 	printHeader("microSD");
 	showBoolResult(F("SD library initialize succeeded"), sdInitializeSucceeded);
 	showBoolResult(F("SD config file open succeeded"), configFileOpenSucceeded);
@@ -231,16 +236,22 @@ void printConfigurations() {
 		configVersionCompareString[checkConfigVersion()].c_str());
 
 	printHeader("Network");
-	showIpAddress(F("My Ip"), myIp);
+	showIpAddress(F("My Ip from Config"), myIp_from_config);
 	showBoolResult(F("isMyIpAddId"), isMyIpAddId);
 	showIpAddress(F("Dest Ip"), destIp);
 	showIpAddress(F("DNS"), dns);
 	showIpAddress(F("Gateway"), gateway);
 	showIpAddress(F("Subnet mask"), subnet);
-	p("MAC address : %02X:%02X:%02X:%02X:%02X:%02X\n",mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
+	p("MAC address from Config: %02X:%02X:%02X:%02X:%02X:%02X\n",
+		mac_from_config[0], 
+		mac_from_config[1], 
+		mac_from_config[2], 
+		mac_from_config[3], 
+		mac_from_config[4], 
+		mac_from_config[5]);
 	showBoolResult(F("isMacAddId"), isMacAddId);
 	p("inPort : %d\n", inPort);
-	p("outPort : %d\n", outPort);
+	p("outPort from Config : %d\n", outPort_from_config);
 	showBoolResult(F("isOutPortAddId"), isOutPortAddId);
 	showBoolResult(F("bootedMsgEnable"), bootedMsgEnable);
 	showBoolResult(F("isDestIpSet"), isDestIpSet);

@@ -43,11 +43,9 @@ uint8_t getMyId() {
     shiftInByte = !digitalRead(MISO3);
     for (uint8_t i = 1; i < 24; i++) {
         digitalWrite(SCK3, HIGH);
-        //shiftInByte = shiftInByte << 1 | (!digitalRead(MISO3));
         shiftInByte |= (!digitalRead(MISO3))<<i;
         digitalWrite(SCK3, LOW);
     }
-    // _id = shiftInByte & 0xFF;
     _id = shiftInByte >> 16;
 #else
     digitalWrite(LATCH3, LOW);
