@@ -15,7 +15,7 @@
 // =============================================================================
 // Board / Pin definitions
 // =============================================================================
-//#define PROTOTYPE_BLACK // First Black PCB prototype
+// #define PROTOTYPE_BLACK // First Black PCB prototype
 //#define PROTOTYPE_R3 // Uncomment this line for the prototype r4 pcb.
 // r3: revision anno lab 2020
 // r4: with brake connector 2021 (production ver)
@@ -51,7 +51,7 @@
     #define L6470_MOSI	11	// 
     #define L6470_SCK	13	// 
     #define L6470_CS_PIN 9
-    #define L6470_RESET_PIN 7
+    #define L6470_RESET_PIN A5
     // Shift Registers
     #define MISO3   A3
     #define LATCH3  A1
@@ -127,15 +127,16 @@ extern AutoDriver stepper[];
 #define MOTOR_ID_LAST   8
 
 // Network
-extern uint8_t mac[6], myId;
+extern uint8_t mac[6], mac_from_config[6], myId;
 extern IPAddress
     myIp,
+    myIp_from_config,
     destIp,
     dns,
     gateway,
     subnet;
 const IPAddress broadcastIp(255, 255, 255, 255);
-extern unsigned int inPort, outPort;
+extern unsigned int inPort, outPort, outPort_from_config;
 extern EthernetUDP Udp;
 extern bool
     isDestIpSet,

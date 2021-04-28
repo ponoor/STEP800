@@ -34,14 +34,16 @@ SPIClass SPI3(&sercom2, MISO3, SCK3, MOSI3, SPI_PAD_2_SCK_3, SERCOM_RX_PAD_1);
 
 // Network
 uint8_t mac[] = { 0x60, 0x95, 0xCE, 0x10, 0x06, 0x00 },
+mac_from_config[],
 myId = 0;
 IPAddress
     myIp(10, 0, 0, 100),
+    myIp_from_config,
     destIp(10, 0, 0, 10),
     dns(10, 0, 0, 1),
     gateway(10, 0, 0, 1),
     subnet(255, 255, 255, 0);
-unsigned int outPort;
+unsigned int outPort, outPort_from_config;
 unsigned int inPort;
 EthernetUDP Udp;
 boolean

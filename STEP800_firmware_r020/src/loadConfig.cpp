@@ -49,6 +49,7 @@ void loadConfig() {
     JsonArray network_subnet = network["subnet"];
     for (i = 0; i < 4; i++) {
         myIp[i] = network_myIp[i] | myIp[i];
+        myIp_from_config[i] = myIp[i];
         destIp[i] = network_destIp[i] | destIp[i];
         dns[i] = network_dns[i] | dns[i];
         gateway[i] = network_gateway[i] | gateway[i];
@@ -57,10 +58,12 @@ void loadConfig() {
     isMyIpAddId = network["isMyIpAddId"] | true;
     inPort = network["inPort"] | 50000;
     outPort = network["outPort"] | 50100;
+    outPort_from_config = outPort;
     isOutPortAddId = network["isOutPortAddId"] | true;
     JsonArray network_mac = network["mac"];
     for (i = 0; i < 6; i++) {
         mac[i] = network_mac[i] | mac[i];
+        mac_from_config[i] = mac[i];
     }
     isMacAddId = network["isMacAddId"] | true;
     bootedMsgEnable = network["bootedMsgEnable"] | true;

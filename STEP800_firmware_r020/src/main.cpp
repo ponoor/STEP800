@@ -160,15 +160,19 @@ void sendBootMsg(uint32_t _currentTime) {
 }
 
 void resetEthernet() {
-    digitalWrite(W5500_RESET_PIN, LOW);
+    boolean reset_pin_enable_state = LOW;
+#ifdef PROTOTYPE_BLACK
+    reset_pin_enable_state = HIGH;
+#endif
+    digitalWrite(W5500_RESET_PIN, reset_pin_enable_state);
     digitalWrite(ledPin, HIGH);
     delay(10); // This delay is necessary to refresh the network configration.
-    digitalWrite(W5500_RESET_PIN, HIGH);
+    digitalWrite(W5500_RESET_PIN, !reset_pin_enable_state);
     digitalWrite(ledPin, LOW);
     delay(1);
-    if ( isMyIpAddId ) myIp[3] += myId;
-    if ( isMacAddId ) mac[5] += myId;
-    if ( isOutPortAddId ) outPort += myId;
+    if ( isMyIpAddId ) myIp[3] = myIp_from_config[3] + myId;
+    if ( isMacAddId ) mac[5] = mac_from_config[5] + myId;
+    if ( isOutPortAddId ) outPort = outPort_from_config + myId;
     Ethernet.begin(mac, myIp, dns, gateway, subnet);
     Udp.begin(inPort);
     p("New IP: %d.%d.%d.%d\n", myIp[0], myIp[1], myIp[2], myIp[3]);
@@ -366,7 +370,6 @@ void updateServo(uint32_t currentTimeMicros) {
         lastServoUpdateTime = currentTimeMicros;
     }
 }
-
 
 void loop() {
     uint32_t 
