@@ -64,15 +64,19 @@ void setup() {
   pinMode(SD_DETECT_PIN, INPUT_PULLUP);
 #endif
   // Stepper Driver
+  boolean L6470_reset_pin_enable_state = HIGH;
+#ifdef PROTOTYPE_BLACK
+    L6470_reset_pin_enable_state = LOW;
+#endif
   pinMode(L6470_RESET_PIN, OUTPUT);
   pinMode(L6470_CS_PIN, OUTPUT);
   pinMode(L6470_MOSI, OUTPUT);
   pinMode(L6470_MISO, INPUT);
   pinMode(L6470_SCK, OUTPUT);
-  digitalWrite(L6470_RESET_PIN, HIGH);
-  digitalWrite(L6470_RESET_PIN, LOW);
+  digitalWrite(L6470_RESET_PIN, L6470_reset_pin_enable_state);
+  digitalWrite(L6470_RESET_PIN, !L6470_reset_pin_enable_state);
   delay(10);
-  digitalWrite(L6470_RESET_PIN, HIGH);
+  digitalWrite(L6470_RESET_PIN, L6470_reset_pin_enable_state);
   digitalWrite(L6470_CS_PIN, HIGH);
   L6470SPI.begin();
 #ifdef PROTOTYPE_BLACK
