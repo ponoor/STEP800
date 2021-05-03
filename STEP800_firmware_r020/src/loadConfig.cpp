@@ -55,20 +55,20 @@ void loadConfig() {
         gateway[i] = network_gateway[i] | gateway[i];
         subnet[i] = network_subnet[i] | subnet[i];
     }
-    isMyIpAddId = network["isMyIpAddId"] | true;
+    isMyIpAddId = (int)network["isMyIpAddId"] | true;
     inPort = network["inPort"] | 50000;
     outPort = network["outPort"] | 50100;
     outPort_from_config = outPort;
-    isOutPortAddId = network["isOutPortAddId"] | true;
+    isOutPortAddId = (int)network["isOutPortAddId"] | true;
     JsonArray network_mac = network["mac"];
     for (i = 0; i < 6; i++) {
         mac[i] = network_mac[i] | mac[i];
         mac_from_config[i] = mac[i];
     }
-    isMacAddId = network["isMacAddId"] | true;
-    bootedMsgEnable = network["bootedMsgEnable"] | true;
-    isDestIpSet = network["canSendMsgBeforeDestIp"] | false;
-    reportErrors = network["reportError"] | true;
+    isMacAddId = (int)network["isMacAddId"] | true;
+    bootedMsgEnable = (int)network["bootedMsgEnable"] | true;
+    isDestIpSet = (int)network["canSendMsgBeforeDestIp"] | false;
+    reportErrors = (int)network["reportError"] | true;
 
     // Alarm and Report
     JsonObject alarmAndReport = doc["alarmAndReport"];
@@ -87,17 +87,17 @@ void loadConfig() {
     JsonArray alarmAndReport_OCThreshold = alarmAndReport["OCThreshold"];
     for (i = 0; i < NUM_OF_MOTOR; i++)
     {
-        reportBUSY[i] = alarmAndReport_reportBUSY[i] | false;
-        reportHiZ[i] = alarmAndReport_reportHiZ[i] | false;
-        reportHomeSwStatus[i] = alarmAndReport_reportHomeSwStatus[i] | false;
-        //reportLimitSwStatus[i] = alarmAndReport_reportLimitSwStatus[i] | false;
-        reportDir[i] = alarmAndReport_reportDir[i] | false;
-        reportMotorStatus[i] = alarmAndReport_reportMotorStatus[i] | false;
-        reportSwEvn[i] = alarmAndReport_reportSwEvn[i] | false;
-        reportUVLO[i] = alarmAndReport_reportUVLO[i] | true;
-        reportThermalStatus[i] = alarmAndReport_reportThermalStatus[i] | true;
-        reportOCD[i] = alarmAndReport_reportOCD[i] | true;
-        reportStall[i] = alarmAndReport_reportStall[i] | false;
+        reportBUSY[i] = (int)alarmAndReport_reportBUSY[i] | false;
+        reportHiZ[i] = (int)alarmAndReport_reportHiZ[i] | false;
+        reportHomeSwStatus[i] = (int)alarmAndReport_reportHomeSwStatus[i] | false;
+        //reportLimitSwStatus[i] = (int)alarmAndReport_reportLimitSwStatus[i] | false;
+        reportDir[i] = (int)alarmAndReport_reportDir[i] | false;
+        reportMotorStatus[i] = (int)alarmAndReport_reportMotorStatus[i] | false;
+        reportSwEvn[i] = (int)alarmAndReport_reportSwEvn[i] | false;
+        reportUVLO[i] = (int)alarmAndReport_reportUVLO[i] | true;
+        reportThermalStatus[i] = (int)alarmAndReport_reportThermalStatus[i] | true;
+        reportOCD[i] = (int)alarmAndReport_reportOCD[i] | true;
+        reportStall[i] = (int)alarmAndReport_reportStall[i] | false;
         overCurrentThreshold[i] = alarmAndReport_OCThreshold[i] | 8; // PowerSTEP01:Max31, L6470:Max15
     }
 
@@ -119,13 +119,13 @@ void loadConfig() {
     JsonArray driverSettings_brakeTransitionDuration = driverSettings["brakeTransitionDuration"];
     uint16_t slewRateVal[3] = { SR_180V_us, SR_290V_us, SR_530V_us };
     for (i = 0; i < NUM_OF_MOTOR; i++) {
-        bHomingAtStartup[i] = driverSettings_homingAtStartup[i] | false;
-        homingDirection[i] = driverSettings_homingDirection[i] | REV;
+        bHomingAtStartup[i] = (int)driverSettings_homingAtStartup[i] | false;
+        homingDirection[i] = (int)driverSettings_homingDirection[i] | REV;
         homingSpeed[i] = driverSettings_homingSpeed[i] | 50.0;
-        homeSwMode[i] = driverSettings_homeSwMode[i] | true; // true: SW_USER, false: SW_HARDSTOP
-        bProhibitMotionOnHomeSw[i] = driverSettings_prohibitMotionOnHomeSw[i] | false;
-        // limitSwMode[i] = driverSettings_limitSwMode[i] | true;
-        // bProhibitMotionOnLimitSw[i] = driverSettings_prohibitMotionOnLimitSw[i] | false;
+        homeSwMode[i] = (int)driverSettings_homeSwMode[i] | true; // true: SW_USER, false: SW_HARDSTOP
+        bProhibitMotionOnHomeSw[i] = (int)driverSettings_prohibitMotionOnHomeSw[i] | false;
+        // limitSwMode[i] = (int)driverSettings_limitSwMode[i] | true;
+        // bProhibitMotionOnLimitSw[i] = (int)driverSettings_prohibitMotionOnLimitSw[i] | false;
         goUntilTimeout[i] = driverSettings_goUnitlTimeout[i] | 10000;
         releaseSwTimeout[i] = driverSettings_releaseSwTimeout[i] | 10000;
         microStepMode[i] = driverSettings_stepMode[i] | STEP_SEL_1_128;
@@ -133,7 +133,7 @@ void loadConfig() {
         slewRateNum[i] = constrain((driverSettings_slewRate[i] | 2), 0, 2); // default SR_530V_us
         slewRate[i] = slewRateVal[slewRateNum[i]];
 #ifdef HAS_BRAKE
-        electromagnetBrakeEnable[i] = driverSettings_electromagnetBrakeEnable[i] | false;
+        electromagnetBrakeEnable[i] = (int)driverSettings_electromagnetBrakeEnable[i] | false;
 #else
         electromagnetBrakeEnable[i] = false;
 #endif
