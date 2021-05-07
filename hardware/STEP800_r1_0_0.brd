@@ -3,11 +3,11 @@
 <eagle version="9.6.2">
 <drawing>
 <settings>
-<setting alwaysvectorfont="yes"/>
+<setting alwaysvectorfont="no"/>
 <setting keepoldvectorfont="yes"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.05" unitdist="inch" unit="inch" style="lines" multiple="1" display="yes" altdistance="0.005" altunitdist="inch" altunit="inch"/>
+<grid distance="1" unitdist="mm" unit="mm" style="lines" multiple="1" display="yes" altdistance="0.1" altunitdist="mm" altunit="mm"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
 <layer number="2" name="Route2" color="25" fill="1" visible="yes" active="yes"/>
@@ -34,10 +34,10 @@
 <layer number="23" name="tOrigins" color="15" fill="1" visible="yes" active="yes"/>
 <layer number="24" name="bOrigins" color="15" fill="1" visible="yes" active="yes"/>
 <layer number="25" name="tNames" color="24" fill="1" visible="yes" active="yes"/>
-<layer number="26" name="bNames" color="7" fill="1" visible="no" active="yes"/>
+<layer number="26" name="bNames" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="27" name="tValues" color="7" fill="1" visible="no" active="yes"/>
 <layer number="28" name="bValues" color="7" fill="1" visible="no" active="yes"/>
-<layer number="29" name="tStop" color="7" fill="3" visible="yes" active="yes"/>
+<layer number="29" name="tStop" color="7" fill="3" visible="no" active="yes"/>
 <layer number="30" name="bStop" color="7" fill="6" visible="no" active="yes"/>
 <layer number="31" name="tCream" color="25" fill="4" visible="no" active="yes"/>
 <layer number="32" name="bCream" color="7" fill="5" visible="no" active="yes"/>
@@ -47,9 +47,9 @@
 <layer number="36" name="bGlue" color="7" fill="5" visible="no" active="yes"/>
 <layer number="37" name="tTest" color="7" fill="1" visible="no" active="yes"/>
 <layer number="38" name="bTest" color="7" fill="1" visible="no" active="yes"/>
-<layer number="39" name="tKeepout" color="4" fill="11" visible="no" active="yes"/>
+<layer number="39" name="tKeepout" color="4" fill="11" visible="yes" active="yes"/>
 <layer number="40" name="bKeepout" color="1" fill="11" visible="yes" active="yes"/>
-<layer number="41" name="tRestrict" color="4" fill="10" visible="no" active="yes"/>
+<layer number="41" name="tRestrict" color="4" fill="10" visible="yes" active="yes"/>
 <layer number="42" name="bRestrict" color="1" fill="10" visible="yes" active="yes"/>
 <layer number="43" name="vRestrict" color="2" fill="10" visible="no" active="yes"/>
 <layer number="44" name="Drills" color="7" fill="1" visible="no" active="yes"/>
@@ -59,7 +59,7 @@
 <layer number="48" name="Document" color="7" fill="1" visible="no" active="yes"/>
 <layer number="49" name="Reference" color="7" fill="1" visible="no" active="yes"/>
 <layer number="50" name="dxf" color="7" fill="1" visible="no" active="no"/>
-<layer number="51" name="tDocu" color="7" fill="1" visible="no" active="yes"/>
+<layer number="51" name="tDocu" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="52" name="bDocu" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="53" name="tGND_GNDA" color="7" fill="9" visible="no" active="no"/>
 <layer number="54" name="bGND_GNDA" color="1" fill="9" visible="no" active="no"/>
@@ -199,7 +199,7 @@
 <hole x="114" y="5" drill="4"/>
 <hole x="113" y="5" drill="4"/>
 <hole x="113.5" y="5" drill="4"/>
-<circle x="5" y="95" radius="1.7" width="1.016" layer="41"/>
+<circle x="10" y="95" radius="1.7" width="1.016" layer="41"/>
 <circle x="10" y="95" radius="1.5" width="1.016" layer="29"/>
 <circle x="90" y="5" radius="1.5" width="1.016" layer="29"/>
 <circle x="107" y="95" radius="1.5" width="1.016" layer="29"/>
@@ -11435,22 +11435,22 @@ design rules under a new name.</description>
 </element>
 <element name="3.3V" library="Seeed-LED" library_urn="urn:adsk.eagle:library:472" package="LED-0603" package3d_urn="urn:adsk.eagle:package:32743/1" value="GREEN-0603" x="3.175" y="63.5" smashed="yes" rot="R180">
 <attribute name="MPN" value="19-217-G7C-AN1P2-3T" x="-111.125" y="158.75" size="1.778" layer="27" rot="R180" display="off"/>
-<attribute name="NAME" x="3.175" y="62.611" size="1.4224" layer="25" font="vector" ratio="15" rot="R180" align="bottom-center"/>
+<attribute name="NAME" x="3.175" y="62.611" size="1.6764" layer="25" font="vector" ratio="15" rot="R180" align="bottom-center"/>
 <attribute name="VALUE" x="4.318" y="65.0875" size="0.635" layer="27" ratio="10" rot="R180"/>
 </element>
 <element name="L" library="Seeed-LED" library_urn="urn:adsk.eagle:library:472" package="LED-0603" package3d_urn="urn:adsk.eagle:package:32743/1" value="BLUE-0603" x="8.255" y="63.5" smashed="yes" rot="R180">
 <attribute name="MPN" value="19-217-BHC-ZL1M2RY-3T" x="-38.735" y="163.83" size="1.778" layer="27" rot="R180" display="off"/>
-<attribute name="NAME" x="8.255" y="62.611" size="1.4224" layer="25" font="vector" ratio="15" rot="R180" align="bottom-center"/>
+<attribute name="NAME" x="8.255" y="62.611" size="1.6764" layer="25" font="vector" ratio="15" rot="R180" align="bottom-center"/>
 <attribute name="VALUE" x="9.398" y="65.0875" size="0.635" layer="27" ratio="10" rot="R180"/>
 </element>
 <element name="TX" library="Seeed-LED" library_urn="urn:adsk.eagle:library:472" package="LED-0603" package3d_urn="urn:adsk.eagle:package:32743/1" value="YELLOW-0603" x="13.335" y="63.5" smashed="yes" rot="R180">
 <attribute name="MPN" value="19-217-Y5C-AM1N1VY-3T" x="-55.245" y="158.75" size="1.778" layer="27" rot="R180" display="off"/>
-<attribute name="NAME" x="13.335" y="62.611" size="1.4224" layer="25" font="vector" ratio="15" rot="R180" align="bottom-center"/>
+<attribute name="NAME" x="13.335" y="62.611" size="1.6764" layer="25" font="vector" ratio="15" rot="R180" align="bottom-center"/>
 <attribute name="VALUE" x="14.478" y="65.0875" size="0.635" layer="27" ratio="10" rot="R180"/>
 </element>
 <element name="RX" library="Seeed-LED" library_urn="urn:adsk.eagle:library:472" package="LED-0603" package3d_urn="urn:adsk.eagle:package:32743/1" value="RED-0603" x="18.415" y="63.5" smashed="yes" rot="R180">
 <attribute name="MPN" value="19-217-R6C-AL1M2VY-3T" x="-34.925" y="163.83" size="1.778" layer="27" rot="R180" display="off"/>
-<attribute name="NAME" x="18.415" y="62.611" size="1.4224" layer="25" font="vector" ratio="15" rot="R180" align="bottom-center"/>
+<attribute name="NAME" x="18.415" y="62.611" size="1.6764" layer="25" font="vector" ratio="15" rot="R180" align="bottom-center"/>
 <attribute name="VALUE" x="19.558" y="65.0875" size="0.635" layer="27" ratio="10" rot="R180"/>
 </element>
 <element name="SWD" library="_kantaParts" package="20021121-00010C4LF" value="CORTEX_DEBUG_SMT" x="34.29" y="45.085" smashed="yes" rot="R180">
@@ -11574,7 +11574,7 @@ design rules under a new name.</description>
 </element>
 <element name="L1" library="Seeed-Inductor" library_urn="urn:adsk.eagle:library:471" package="L0805" package3d_urn="urn:adsk.eagle:package:32720/1" value="330R-1500MA" x="24.003" y="67.31" smashed="yes" rot="R270">
 <attribute name="MPN" value="BLM21PG331SN1D" x="-71.247" y="21.59" size="1.778" layer="27" rot="R270" display="off"/>
-<attribute name="NAME" x="24.384" y="64.262" size="1.016" layer="25" font="vector" ratio="15" align="bottom-center"/>
+<attribute name="NAME" x="24.13" y="65.278" size="1.016" layer="25" font="vector" ratio="15" rot="R180" align="bottom-center"/>
 <attribute name="VALUE" x="21.971" y="69.215" size="0.889" layer="27" ratio="11" rot="R270"/>
 </element>
 <element name="L2" library="Seeed-Inductor" library_urn="urn:adsk.eagle:library:471" package="L0805" package3d_urn="urn:adsk.eagle:package:32720/1" value="330R-1500MA" x="38.1" y="69.85" smashed="yes">
@@ -11599,7 +11599,7 @@ design rules under a new name.</description>
 </element>
 <element name="R11" library="Seeed-Resistor" library_urn="urn:adsk.eagle:library:474" package="R0603" package3d_urn="urn:adsk.eagle:package:32791/1" value="10R" x="21.717" y="67.31" smashed="yes">
 <attribute name="MPN" value="RC0603JR-0710RL" x="52.197" y="-43.18" size="1.778" layer="27" display="off"/>
-<attribute name="NAME" x="22.098" y="65.151" size="1.016" layer="25" font="vector" ratio="15" rot="R180" align="bottom-center"/>
+<attribute name="NAME" x="20.701" y="67.31" size="1.016" layer="25" font="vector" ratio="15" rot="R90" align="bottom-center"/>
 <attribute name="VALUE" x="23.152" y="65.705" size="0.635" layer="27" ratio="10" rot="R90"/>
 </element>
 <element name="RN5" library="_kantaParts" package="CAY16_LONG_W" value="49.9" x="21.844" y="81.28" smashed="yes" rot="R180">
