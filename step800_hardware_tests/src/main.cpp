@@ -42,7 +42,7 @@ FlashStorage(storage, String);
     #define SHIFTOUT_ENABLE_PIN 5u
 
 const uint8_t auxPin[8] = {7,1,A1,6,9,38,SCL,SDA};
-#define NUM_OF_MOTOR   (4)
+#define NUM_OF_MOTOR   (8)
 SPIClass L6470SPI(&sercom3, L6470_MISO, L6470_SCK, L6470_MOSI, SPI_PAD_0_SCK_3, SERCOM_RX_PAD_2);// MISO/SCK/MOSI pins
 
 SPIClass SPI3(&sercom2, MISO3, SCK3, MOSI3, SPI_PAD_2_SCK_3, SERCOM_RX_PAD_1);
@@ -261,12 +261,14 @@ bool L6470Test() {
     stepper[i].setVoltageComp(VS_COMP_DISABLE);
     stepper[i].setParam(ALARM_EN, 0xEF); // Enable alarms except ADC UVLO
     status[i] = stepper[i].getStatus(); // Clear Startup Flags
+    stepper[i].run(FWD, 200.0); // Test motion
     status[i] = stepper[i].getStatus();
     temp += status[i];
+    stepper[i].hardHiZ();
   }
   showBoolResult(temp!=0);
 
-    if (temp != 0) {
+  if (temp != 0) {
     for ( i = 0; i < NUM_OF_MOTOR; i++)
     {
       temp = 0;
@@ -308,7 +310,16 @@ bool L6470Test() {
       p(" SW_F: %d ", swF);
       showBoolResult(!swF);
       if (swF == 1) {
-        p("HOME senser input closed. Check HOME connection.\n");
+        p("  HOME senser input closed. Check HOME connection.\n");
+        result = false;
+      }
+
+      // BUSY
+      bool busyF = (status[i] &STATUS_BUSY);
+      p(" BUSY: %d ", busyF); // 1:NOT BUSY, 0:BUSY, should be in BUSY
+      showBoolResult(!busyF);
+      if (busyF == 1) {
+        p("  The test motor motion command can't excute.\n");
         result = false;
       }
     }
@@ -321,18 +332,19 @@ bool L6470Test() {
 
 }
 uint8_t getDipSw() {
-    digitalWrite(LATCH3, LOW);
-    digitalWrite(LATCH3, HIGH);
-    SPI3.transfer(brakeOut);
-    _id = SPI3.transfer(0);
-    _id = ~_id;
-    return _id;
+  uint8_t _id = 0;
+  digitalWrite(LATCH3, LOW);
+  digitalWrite(LATCH3, HIGH);
+  SPI3.transfer(0); // output for the brake
+  _id = SPI3.transfer(0);
+  _id = ~_id;
+  return _id;
 }
 // DIP switch
 bool dipSwTest() {
   showHeader("DIP Switch");
-  bool result = false, bChanged = false;
-  bool digitState[8], bTested[8] = {0,0,0,0,0,0,0,0};
+  bool result = true;
+  uint8_t t = 255, count = 0;
 
   // Shift Registers
 	SPI3.begin();
@@ -346,13 +358,64 @@ bool dipSwTest() {
   digitalWrite(SHIFTOUT_ENABLE_PIN, HIGH);
 
   if ( getDipSw() != 0) {
-    p("Set all digits 0(OFF).\n");
-    while ( getDipSW() == 0)
+    p("Please set all digits 0(OFF): ");
+    
+    while ( t != 0)
     {
-      ;
+      t = getDipSw();
+      delay(50);
+      count++;
+      if (count >=20 ) { p("."); count = 0;}
+      if (SerialUSB.available()>0) {
+        byte e = SerialUSB.read();
+        if (e == 'b') {
+          p("Cancelled.\n");
+          result = false;
+          return result;
+        }
+      }
     }
+    p("\n");
+    count = 0;
   } 
-
+  t= 0;
+  for (uint8_t i=0; i<8; i++) {
+    p("Turn the digit #%d ON.", i+1);
+    while ( t !=  1) {
+      t = getDipSw();
+      t = (t>>i) & 1;
+      delay(50);
+      count++;
+      if (count >=20 ) { p("."); count=0;}
+      if (SerialUSB.available()>0) {
+        byte e = SerialUSB.read();
+        if (e == 'b') {
+          p("Cancelled.\n");
+          result = false;
+          return result;
+        }
+      }
+    }
+    p("Done.\nTurn the digit #%d OFF.", i+1);
+    t = 1;
+    while ( t !=  0) {
+      t = getDipSw();
+      t = (t>>i) & 1;
+      delay(50);
+      count++;
+      if (count >=20 ) { p("."); count=0;}
+      if (SerialUSB.available()>0) {
+        byte e = SerialUSB.read();
+        if (e == 'b') {
+          p("Cancelled.\n");
+          result = false;
+          return result;
+        }
+      }
+    }
+    p("Done.\n");
+  }
+  return true;
 }
 
 void setup() {
@@ -403,6 +466,10 @@ void loop() {
         break;
       case 'l':
         loadResults();
+        break;
+      case 'd':
+        byte t = getDipSw();
+        p("DIP SW: %d\n", t);
         break;
     }
   }
