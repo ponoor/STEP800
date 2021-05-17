@@ -87,7 +87,12 @@ void resetMotorDriver(uint8_t deviceID) {
         stepper[deviceID].setVoltageComp(VS_COMP_DISABLE);
         stepper[deviceID].setOCThreshold(overCurrentThreshold[deviceID]); // 5A for 0.1ohm shunt resistor
         stepper[deviceID].setOCShutdown(OC_SD_ENABLE);
+    #ifdef PROTOTYPE_BLACK
+        stepper[deviceID].setOscMode(EXT_24MHZ_OSCOUT_INVERT);
+    #else
         stepper[deviceID].setOscMode(EXT_16MHZ_OSCOUT_INVERT);
+    #endif
+
         // if (isCurrentMode[deviceID]) {
         //     stepper[deviceID].setHoldTVAL(tvalHold[deviceID]);
         //     stepper[deviceID].setRunTVAL(tvalRun[deviceID]);
