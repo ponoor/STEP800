@@ -43,8 +43,7 @@
 - Connect Atmel-ICE Basic with a PC with USB microB cable.
 - Connect the programming cable to the “**SAM**” connector of the Atmel-ICE Basic
 - For the cable, use the right connector to the Atmel-ICE Basic, and the center connector to the PCB.  We won’t use the left connector.
-<img src="https://media.digikey.com/Photos/Atmel%20Photos/MFG_ATATMEL-ICE-BASIC.jpg" width = "300" />
-<img src="https://images-na.ssl-images-amazon.com/images/I/511stTQfqZL._AC_SL1440_.jpg" width = "300" />
+<img src="https://user-images.githubusercontent.com/1097902/125184005-75b7a800-e255-11eb-8ed0-7846a7a99644.png" width = "300" /><img src="https://user-images.githubusercontent.com/1097902/125183995-659fc880-e255-11eb-8d24-a067c3d8cd0b.png" width = "300" />
 
 - Remove the small plastic cover from `SWD` pin header on the PCB. Do not discard this cover, we will use it later.
 - Then connect a programming socket (the 1.27mm pitch 10pin connector in the middle of the cable) to `SWD` pinheader on the PCB. Be aware of the small circle marking which placed the pin no.1 of the `SWD` connector. The red line of the programming cable indicates the pin no.1 side of the programming header.
