@@ -33,7 +33,7 @@
 
 #### Download and Compile the test program
 
-1. Download the program from [here](https://github.com/ponoor/STEP400/blob/master/hardwareTestSketch/hardwareTestSketch.ino), and open it with the Arduino IDE software.
+1. Download the program from [here](https://github.com/ponoor/STEP800/blob/master/step800_hardware_tests/Arduino/step800_hardware_tests/step800_hardware_tests.ino), and open it with the Arduino IDE software.
 2. Specify the target board as `Arduino Zero (Native USB Port)` .
 <img src="https://user-images.githubusercontent.com/1097902/125183641-37b98480-e253-11eb-9a5e-a9bc241dd2f0.png" width = "600" />
 3. Press the “VERIFY” button. Then Arduino IDE starts the compile the program (which called “Sketch” in the IDE).
