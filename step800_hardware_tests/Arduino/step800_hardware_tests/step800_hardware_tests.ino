@@ -17,22 +17,22 @@ constexpr auto FIRMWARE_NAME = "STEP800_r1_hardware_test_r1.0.0";
 String results;
 FlashStorage(storage, String);
 
-#define SD_CS_PIN	4u
+#define SD_CS_PIN  4u
 #define SD_DETECT_PIN   A4
-    #define ledPin	13u
+    #define ledPin  13u
     // L6470
-    #define L6470_MISO	6u	// D6 /SERCOM3/PAD[2] miso
-    #define L6470_MOSI	11u	// D11/SERCOM3/PAD[0] mosi
-    #define L6470_SCK	12u	// D12/SERCOM3/PAD[3] sck
+    #define L6470_MISO  6u  // D6 /SERCOM3/PAD[2] miso
+    #define L6470_MOSI  11u // D11/SERCOM3/PAD[0] mosi
+    #define L6470_SCK 12u // D12/SERCOM3/PAD[3] sck
 
     #define L6470_CS_PIN A0
     #define L6470_RESET_PIN A2
     // Shift registers
     // 74HC165 +74HC595 for the dip sw input and the brake output
-    #define MISO3	3u // SERCOM2/PAD[1]
+    #define MISO3 3u // SERCOM2/PAD[1]
     #define MOSI3   2u // SERCOM2/PAD[2]
-    #define SCK3	0u // SERCOM2/PAD[3]
-    #define LATCH3	A5
+    #define SCK3  0u // SERCOM2/PAD[3]
+    #define LATCH3  A5
     // Shift registers SPI
     extern SPIClass SPI3;
 
@@ -50,14 +50,14 @@ SPIClass SPI3(&sercom2, MISO3, SCK3, MOSI3, SPI_PAD_2_SCK_3, SERCOM_RX_PAD_1);
 
 // L6470
 AutoDriver stepper[] = {
-	AutoDriver(7, L6470_CS_PIN, L6470_RESET_PIN),
-	AutoDriver(6, L6470_CS_PIN, L6470_RESET_PIN),
-	AutoDriver(5, L6470_CS_PIN, L6470_RESET_PIN),
-	AutoDriver(4, L6470_CS_PIN, L6470_RESET_PIN),
-	AutoDriver(3, L6470_CS_PIN, L6470_RESET_PIN),
-	AutoDriver(2, L6470_CS_PIN, L6470_RESET_PIN),
-	AutoDriver(1, L6470_CS_PIN, L6470_RESET_PIN),
-	AutoDriver(0, L6470_CS_PIN, L6470_RESET_PIN)
+  AutoDriver(7, L6470_CS_PIN, L6470_RESET_PIN),
+  AutoDriver(6, L6470_CS_PIN, L6470_RESET_PIN),
+  AutoDriver(5, L6470_CS_PIN, L6470_RESET_PIN),
+  AutoDriver(4, L6470_CS_PIN, L6470_RESET_PIN),
+  AutoDriver(3, L6470_CS_PIN, L6470_RESET_PIN),
+  AutoDriver(2, L6470_CS_PIN, L6470_RESET_PIN),
+  AutoDriver(1, L6470_CS_PIN, L6470_RESET_PIN),
+  AutoDriver(0, L6470_CS_PIN, L6470_RESET_PIN)
 };
 
 // Network
@@ -348,13 +348,13 @@ bool dipSwTest() {
   uint8_t t = 255, count = 0;
 
   // Shift Registers
-	SPI3.begin();
-	pinPeripheral(MISO3, PIO_SERCOM_ALT);	// MISO
-	pinPeripheral(MOSI3, PIO_SERCOM);	// MOSI
-	pinPeripheral(SCK3, PIO_SERCOM_ALT);		// SCK
-	SPI3.beginTransaction(SPISettings(4000000, MSBFIRST, SPI_MODE0));
-	pinMode(LATCH3, OUTPUT);
-	digitalWrite(LATCH3, HIGH);
+  SPI3.begin();
+  pinPeripheral(MISO3, PIO_SERCOM_ALT); // MISO
+  pinPeripheral(MOSI3, PIO_SERCOM); // MOSI
+  pinPeripheral(SCK3, PIO_SERCOM_ALT);    // SCK
+  SPI3.beginTransaction(SPISettings(4000000, MSBFIRST, SPI_MODE0));
+  pinMode(LATCH3, OUTPUT);
+  digitalWrite(LATCH3, HIGH);
   pinMode(SHIFTOUT_ENABLE_PIN, OUTPUT);
   digitalWrite(SHIFTOUT_ENABLE_PIN, HIGH);
 
