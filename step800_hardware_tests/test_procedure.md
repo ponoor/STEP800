@@ -12,10 +12,10 @@
 ### microSD card setup
 1. Format the **microSD** or **microSDHC** card with FAT16 or FAT32.
     Note : microSDXC card will not work.
-2. Download the test text data from here; https://raw.githubusercontent.com/kanta/STEP400_prototype/master/rev4/configTool/sample-setups/SM-42BYG011_24V/config.txt
+2. Download the test text data from [here](https://raw.githubusercontent.com/kanta/STEP400_prototype/master/rev4/configTool/sample-setups/SM-42BYG011_24V/config.txt).
 3. Copy it to the top directory of the microSD card.
 4. Remove the card from a PC and put into the microSD card slot on STEP800.
-5. 
+
 ### Arduino IDE setup
 1. Download and install latest Arduino IDE from https://www.arduino.cc/en/Main/Software
 2. Install SAMD boards core. Procedure is explained here: https://www.arduino.cc/en/Guide/ArduinoZero
@@ -33,7 +33,7 @@
 
 #### Download and Compile the test program
 
-1. Download the program from [here](https://github.com/ponoor/STEP800/blob/master/step800_hardware_tests/Arduino/step800_hardware_tests/step800_hardware_tests.ino), and open it with the Arduino IDE software.
+1. Download the program from [here](https://github.com/ponoor/STEP800/blob/main/step800_hardware_tests/Arduino/step800_hardware_tests/step800_hardware_tests.ino), and open it with the Arduino IDE software.
 2. Specify the target board as `Arduino Zero (Native USB Port)` .
 <img src="https://user-images.githubusercontent.com/1097902/125183641-37b98480-e253-11eb-9a5e-a9bc241dd2f0.png" width = "600" />
 3. Press the “VERIFY” button. Then Arduino IDE starts the compile the program (which called “Sketch” in the IDE).
