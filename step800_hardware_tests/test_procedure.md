@@ -138,28 +138,6 @@ This items checks the logical correctness of the microSD card detect pin.
 | 21       | microSD SPI MISO (Shared with W5500) |
 | 10       | SD_DETECT_PIN                        |
 
-### Electromagnetic Brake Pins
-
-**Description**
-This test checks the electromagnetic brake pins, which connected with the 6pin box header (designator  `J7`).
-The successful test result will look like this;
-
-     -------------- Electromagnetic Brake Pins --------------
-    brakePin connection state: Ok
-    
-    Test result: Passed
-
-This test confirms that each pin is not interfering with each other.
-
-**Related pins**
-
-| MCU pin# | Box header pin# | Function                   |
-| -------- | --------------- | -------------------------- |
-| 7        | 1               | Electromagnet brake pin #1 |
-| 11       | 2               | Electromagnet brake pin #2 |
-| 24       | 3               | Electromagnet brake pin #3 |
-| 15       | 4               | Electromagnet brake pin #4 |
-
 ### Auxiliary Pins
 
 **Descriptions**
@@ -180,6 +158,11 @@ This test confirms that each pin is not interfering with each other.
 | 31       | SDA                       |
 | 32       | SCL                       |
 | 22       | D38                       |
+|12|D9|
+|11|D8|
+|7|A1|
+|15|D1|
+|30|D7|
 
 ### Ethernet
 
@@ -212,44 +195,62 @@ This test checks the physical connection of Ethernet. This test wait a few secon
 | 20       | W5500 SPI SCK (shared with microSD)  |
 | 21       | W5500 SPI MISO (shared with microSD) |
 
-### PowerSTEP01
+### L6470
 
 **Description**
-This test checks the motor driver chip PowerSTEP01. 
+This test checks the motor driver chip L6470. 
 The successful test result will look like this;
 
-     -------------- PowerSTEP01 --------------
-    PowerSTEP01 SPI connection: Ok
-    PowerSTEO01 ID#1
-     STATUS: 0xE603  Ok
-     SW_F: 0 Ok
-     ADC_OUT: 31 Ok
-    PowerSTEO01 ID#2
-     STATUS: 0xE603  Ok
-     SW_F: 0 Ok
-     ADC_OUT: 31 Ok
-    PowerSTEO01 ID#3
-     STATUS: 0xE603  Ok
-     SW_F: 0 Ok
-     ADC_OUT: 31 Ok
-    PowerSTEO01 ID#4
-     STATUS: 0xE603  Ok
-     SW_F: 0 Ok
-     ADC_OUT: 31 Ok
-    
-    Test result: Passed
+```
+-------------- L6470 --------------     
+L6470 SPI connection: Ok
+L6470 ID#1
+ STATUS: 0x7E30  Ok
+ SW_F: 0 Ok
+ BUSY: 0 Ok
+L6470 ID#2
+ STATUS: 0x7E30  Ok
+ SW_F: 0 Ok
+ BUSY: 0 Ok
+L6470 ID#3
+ STATUS: 0x7E30  Ok
+ SW_F: 0 Ok
+ BUSY: 0 Ok
+L6470 ID#4
+ STATUS: 0x7E30  Ok
+ SW_F: 0 Ok
+ BUSY: 0 Ok
+L6470 ID#5
+ STATUS: 0x7E30  Ok
+ SW_F: 0 Ok
+ BUSY: 0 Ok
+L6470 ID#6
+ STATUS: 0x7E30  Ok
+ SW_F: 0 Ok
+ BUSY: 0 Ok
+L6470 ID#7
+ STATUS: 0x7E30  Ok
+ SW_F: 0 Ok
+ BUSY: 0 Ok
+L6470 ID#8
+ STATUS: 0x7E30  Ok
+ SW_F: 0 Ok
+ BUSY: 0 Ok
 
-**PowerSTEP01 SPI connection**
-This results shows the physical connection of the SPI daisy chain of 4 PowerSTEP01s are working or not. All SPI pins of all PoweSTEP01s and the MCU have to be connected properly to establish the SPI communication.
+Test result: Passed
+```
+
+**L6470 SPI connection**
+This results shows the physical connection of the SPI daisy chain of 8 L6470s are working or not. All SPI pins of all L6470s and the MCU have to be connected properly to establish the SPI communication.
 If this test failed, please check the connections of following pins;
 
-| MCU pin# | PowerSTEP01 pin# | Function             |
+| MCU pin# | L6470 pin# | Function             |
 | -------- | ---------------- | -------------------- |
-| 3        | 10               | PowerSTEP01 SPI CS   |
-| 8        | 19               | PowerSTEP01 RESET    |
-| 25       | 12               | PowerSTEP01 SPI MOSI |
-| 28       | 11               | PowerSTEP01 SPI SCK  |
-| 29       | 14               | PowerSTEP01 SPI MISO |
+| 3        | 23               | L6470 SPI CS   |
+| 8        | 3                | L6470 RESET    |
+| 25       | 20               | L6470 SPI MOSI |
+| 28       | 19               | L6470 SPI SCK  |
+| 29       | 18               | L6470 SPI MISO |
 
 **STATUS**
 This item shows the status of each PowerSTEP01. There are several possible errors here.
@@ -257,85 +258,89 @@ This item shows the status of each PowerSTEP01. There are several possible error
 
 - `OCD(Over Current) detected.` : This error indicates an overcurrent detection event. Probably something is wrong in following pins;
 
-| PowerSTEP01 pin#       | Function |
+| L6470 pin#       | Function |
 | ---------------------- | -------- |
-| 9                      | SENSEB_S |
-| 20                     | SENSEA_S |
-| 34, 35, 36, 39, 40, 41 | SENSEA_P |
-| 77, 78, 79, 82, 83, 84 | SENSEB_P |
+| 1                      | OUT1A |
+| 14                     | OUT1B |
+| 15 | OUT2A |
+| 28 | OUT2B |
 
-- `UVLO(Under Voltage Lock Out) detected.`  : This error will happen then a VCC of the PowerSTEP01 is too low.  Check a DC24V power supply is connected properly, and following pin connections;
+- `UVLO(Under Voltage Lock Out) detected.`  : This error will happen then a VCC of the L6470 is too low.  Check the power supply is connected properly, and following pin connections;
 
-| PowerSTEP01 pin# | Function |
+| L6470 pin# | Function |
 | ---------------- | -------- |
-| 55               | VS       |
-| 56               | VBOOT    |
-| 58               | VCC      |
-| 60               | VCCREG   |
-| 61               | VSREG    |
-| 62               | VREG     |
+| 2, 26               | VSA       |
+| 12, 16               | VSB    |
+| 10               | CP      |
+| 11               | VBOOT   |
 
-- `OCD+UVLO detected.` : This error happens when the external clock source is not provided. Check the crystal oscillator `Q3` and external clock input and output pins of PowerSTEP01. The external clock is daisy chained among PowerSTEP01s, `Q3` → `U5` → `U6` → `U7` → `U8`.
+- `OCD+UVLO detected.` : This error happens when the external clock source is not provided. Check the crystal oscillator `Q3` and external clock input and output pins of L6470. The external clock is daisy chained among L6470s, `Q3` → `U6` → `U7` → `U8` → `U9` → `U10` → `U11` → `U12` → `U13`.
 
-| PowerSTEP01 pin# | Function |
+| L6470 pin# | Function |
 | ----------------- | -------- |
-| 64                | OSCIN    |
-| 65                | OSCOUT   |
+| 7                | OSCIN    |
+| 8                | OSCOUT   |
 
 **SW_F**
 This item checks the state of SW pin of PowerSTEP01, which connected to HOME sensor connector. 
 
-| PowerSTEP01 pin# | Function |
+| L6470 pin# | Function |
 | ---------------- | -------- |
-| 18               | SW       |
+| 4               | SW       |
 
-**ADC_OUT**
-This item checks ADCIN pin of PowerSTEP01, which connected to LIMIT sensor connector.
-
-| PowerSTEP01 pin# | Function |
-| ---------------- | -------- |
-| 54               | ADCIN    |
 
 ### DIP Switch
 
 **Descriptions**
 This test checks the DIP switch (designator `ID`) and you need to move all digits of the switch by yourself to complete the test.
-The successful test result will look like this;
 Initially you will see the following message.
 
-     -------------- DIP Switch --------------
-    Move all digits of the switch
-    (Type `b` to cancel the test.)
+```
+-------------- DIP Switch --------------
+Turn the digit #1 ON...
+```
+Move the specified digit of the switch. Then you will see a next message.
+Eventually the test result will look something like this;
 
-Then please move each digits of the switch.
+```
+-------------- DIP Switch --------------
+Turn the digit #1 ON....Done.
+Turn the digit #1 OFF...Done.
+Turn the digit #2 ON.Done.   
+Turn the digit #2 OFF..Done.
+Turn the digit #3 ON..Done. 
+Turn the digit #3 OFF..Done.
+Turn the digit #4 ON..Done. 
+Turn the digit #4 OFF..Done.
+Turn the digit #5 ON..Done. 
+Turn the digit #5 OFF.Done.
+Turn the digit #6 ON..Done.
+Turn the digit #6 OFF..Done.
+Turn the digit #7 ON...Done.
+Turn the digit #7 OFF.Done. 
+Turn the digit #8 ON..Done.
+Turn the digit #8 OFF..Done.
 
-    Ok -- -- -- -- -- -- -- 
-    Ok Ok -- -- -- -- -- -- 
-    Ok Ok Ok -- -- -- -- -- 
-    Ok Ok Ok Ok -- -- -- -- 
-    Ok Ok Ok Ok Ok -- -- -- 
-    Ok Ok Ok Ok Ok Ok -- -- 
-    Ok Ok Ok Ok Ok Ok Ok -- 
-    Ok Ok Ok Ok Ok Ok Ok Ok
-    
-    Test result: Passed
+Test result: Passed
+```
 
 You will see the message every time you moved the digit.
 This test will be finished when all 8 digits are successfully moved.
 
-If you need to cancel this DIP switch test for some reason, you can type `b`.
+If you need to cancel this DIP switch test you can type `b`.
 
 ### Test result
 
 Finally you will see the result. The last line shows the total result.
 
-     -------------- Result of Hardware Test -------------- 
-    SD Card: Ok
-    Brake Pins: Ok
-    Auxiliary Pins: Ok
-    Ethernet: Ok
-    PowerSTEP01: Ok
-    DIP switch: Ok
-    
-    Test result: Ok
+```
+-------------- Result of Hardware Test --------------
+SD Card: Ok
+Auxiliary Pins: Ok
+Ethernet: Ok
+L6470: Ok
+DIP switch: Ok
+
+Test result: Passed
+```
 
