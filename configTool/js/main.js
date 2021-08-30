@@ -1,5 +1,5 @@
 window.addEventListener('DOMContentLoaded', function() {
-    var NUM_MOTOR = 4;
+    var NUM_MOTOR = 8;
     var inputElements = {
         information: {
             configName: document.querySelector("input[name='configName']"),
@@ -26,7 +26,7 @@ window.addEventListener('DOMContentLoaded', function() {
             reportBUSY: document.querySelectorAll("input[name='reportBUSY']"),
             reportHiZ: document.querySelectorAll("input[name='reportHiZ']"),
             reportHomeSwStatus: document.querySelectorAll("input[name='reportHomeSwStatus']"),
-            reportLimitSwStatus: document.querySelectorAll("input[name='reportLimitSwStatus']"),
+            // reportLimitSwStatus: document.querySelectorAll("input[name='reportLimitSwStatus']"),
             reportDir: document.querySelectorAll("input[name='reportDir']"),
             reportMotorStatus: document.querySelectorAll("input[name='reportMotorStatus']"),
             reportSwEvn: document.querySelectorAll("input[name='reportSwEvn']"),
@@ -42,13 +42,13 @@ window.addEventListener('DOMContentLoaded', function() {
             homingSpeed: document.querySelectorAll("input[name='homingSpeed']"),
             homeSwMode: document.querySelectorAll("input[name='homeSwMode']"),
             prohibitMotionOnHomeSw: document.querySelectorAll("input[name='prohibitMotionOnHomeSw']"),
-            limitSwMode: document.querySelectorAll("input[name='limitSwMode']"),
-            prohibitMotionOnLimitSw: document.querySelectorAll("input[name='prohibitMotionOnLimitSw']"),
+            // limitSwMode: document.querySelectorAll("input[name='limitSwMode']"),
+            // prohibitMotionOnLimitSw: document.querySelectorAll("input[name='prohibitMotionOnLimitSw']"),
             goUntilTimeout: document.querySelectorAll("input[name='goUntilTimeout']"),
             releaseSwTimeout: document.querySelectorAll("input[name='releaseSwTimeout']"),
             stepMode: document.querySelectorAll("select[name='stepMode']"),
-            isCurrentMode: document.querySelectorAll("input[name='isCurrentMode']"),
-            slewRate: document.querySelectorAll("select[name='slewRate']"),
+            // isCurrentMode: document.querySelectorAll("input[name='isCurrentMode']"),
+            // slewRate: document.querySelectorAll("select[name='slewRate']"),
             electromagnetBrakeEnable: document.querySelectorAll("input[name='electromagnetBrakeEnable']"),
             brakeTransitionDuration: document.querySelectorAll("input[name='brakeTransitionDuration']")
         }, 
@@ -67,17 +67,8 @@ window.addEventListener('DOMContentLoaded', function() {
             ST_SLP: document.querySelectorAll("input[name='ST_SLP']"),
             FN_SLP_ACC: document.querySelectorAll("input[name='FN_SLP_ACC']"),
             FN_SLP_DEC: document.querySelectorAll("input[name='FN_SLP_DEC']"),
-            STALL_TH: document.querySelectorAll("select[name='STALL_TH']"),
+            STALL_TH: document.querySelectorAll("input[name='STALL_TH']"),
             lowSpeedOptimize: document.querySelectorAll("input[name='lowSpeedOptimize']")
-        }, 
-        currentMode: {
-            TVAL_HOLD: document.querySelectorAll("input[name='TVAL_HOLD']"),
-            TVAL_RUN: document.querySelectorAll("input[name='TVAL_RUN']"),
-            TVAL_ACC: document.querySelectorAll("input[name='TVAL_ACC']"),
-            TVAL_DEC: document.querySelectorAll("input[name='TVAL_DEC']"),
-            T_FAST: document.querySelectorAll("input[name='T_FAST']"),
-            TON_MIN: document.querySelectorAll("input[name='TON_MIN']"),
-            TOFF_MIN: document.querySelectorAll("input[name='TOFF_MIN']")
         },
         servoMode: {
             kP: document.querySelectorAll("input[name='kP']"),
@@ -91,7 +82,7 @@ window.addEventListener('DOMContentLoaded', function() {
         driverSettings: document.querySelector("input.driverSettings[name='targetAll']"),
         speedProfile: document.querySelector("input.speedProfile[name='targetAll']"),
         voltageMode: document.querySelector("input.voltageMode[name='targetAll']"),
-        currentMode: document.querySelector("input.currentMode[name='targetAll']"),
+        //currentMode: document.querySelector("input.currentMode[name='targetAll']"),
         servoMode: document.querySelector("input.servoMode[name='targetAll']")
     }
     var rowLabelTexts = {
@@ -99,7 +90,7 @@ window.addEventListener('DOMContentLoaded', function() {
         driverSettings: document.querySelectorAll("div.rowLabel.driverSettings p"),
         speedProfile: document.querySelectorAll("div.rowLabel.speedProfile p"),
         voltageMode: document.querySelectorAll("div.rowLabel.voltageMode p"),
-        currentMode: document.querySelectorAll("div.rowLabel.currentMode p"),
+        //currentMode: document.querySelectorAll("div.rowLabel.currentMode p"),
         servoMode: document.querySelectorAll("div.rowLabel.servoMode p")
     }
 
