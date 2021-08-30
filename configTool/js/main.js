@@ -44,7 +44,7 @@ window.addEventListener('DOMContentLoaded', function() {
             prohibitMotionOnHomeSw: document.querySelectorAll("input[name='prohibitMotionOnHomeSw']"),
             limitSwMode: document.querySelectorAll("input[name='limitSwMode']"),
             prohibitMotionOnLimitSw: document.querySelectorAll("input[name='prohibitMotionOnLimitSw']"),
-            goUnitlTimeout: document.querySelectorAll("input[name='goUnitlTimeout']"),
+            goUntilTimeout: document.querySelectorAll("input[name='goUntilTimeout']"),
             releaseSwTimeout: document.querySelectorAll("input[name='releaseSwTimeout']"),
             stepMode: document.querySelectorAll("select[name='stepMode']"),
             isCurrentMode: document.querySelectorAll("input[name='isCurrentMode']"),

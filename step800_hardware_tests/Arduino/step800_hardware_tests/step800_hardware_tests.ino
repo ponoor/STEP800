@@ -6,8 +6,8 @@
 #include <SPI.h>
 #include <Ethernet.h>
 #include <SD.h>
-#include <FlashStorage.h>
-#include <Ponoor_L6470Library.h>
+#include "FlashStorage.h"
+#include "Ponoor_L6470Library.h"
 #include "wiring_private.h" // pinPeripheral() function
 
 

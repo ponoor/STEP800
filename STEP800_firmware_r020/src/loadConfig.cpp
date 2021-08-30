@@ -98,7 +98,7 @@ void loadConfig() {
         reportThermalStatus[i] = (int)alarmAndReport_reportThermalStatus[i] | true;
         reportOCD[i] = (int)alarmAndReport_reportOCD[i] | true;
         reportStall[i] = (int)alarmAndReport_reportStall[i] | false;
-        overCurrentThreshold[i] = alarmAndReport_OCThreshold[i] | 8; // PowerSTEP01:Max31, L6470:Max15
+        overCurrentThreshold[i] = alarmAndReport_OCThreshold[i] | 7; // PowerSTEP01:Max31, L6470:Max15
     }
 
     // Driver settings
@@ -110,7 +110,7 @@ void loadConfig() {
     JsonArray driverSettings_prohibitMotionOnHomeSw = driverSettings["prohibitMotionOnHomeSw"];
     // JsonArray driverSettings_limitSwMode = driverSettings["limitSwMode"];
     // JsonArray driverSettings_prohibitMotionOnLimitSw = driverSettings["prohibitMotionOnLimitSw"];
-    JsonArray driverSettings_goUnitlTimeout = driverSettings["goUnitlTimeout"];
+    JsonArray driverSettings_goUntilTimeout = driverSettings["goUntilTimeout"];
     JsonArray driverSettings_releaseSwTimeout = driverSettings["releaseSwTimeout"];
     JsonArray driverSettings_stepMode = driverSettings["stepMode"];
     // JsonArray driverSettings_isCurrentMode = driverSettings["isCurrentMode"];
@@ -126,7 +126,7 @@ void loadConfig() {
         bProhibitMotionOnHomeSw[i] = (int)driverSettings_prohibitMotionOnHomeSw[i] | false;
         // limitSwMode[i] = (int)driverSettings_limitSwMode[i] | true;
         // bProhibitMotionOnLimitSw[i] = (int)driverSettings_prohibitMotionOnLimitSw[i] | false;
-        goUntilTimeout[i] = driverSettings_goUnitlTimeout[i] | 10000;
+        goUntilTimeout[i] = driverSettings_goUntilTimeout[i] | 10000;
         releaseSwTimeout[i] = driverSettings_releaseSwTimeout[i] | 10000;
         microStepMode[i] = driverSettings_stepMode[i] | STEP_SEL_1_128;
         // isCurrentMode[i] = driverSettings_isCurrentMode[i] | false;
