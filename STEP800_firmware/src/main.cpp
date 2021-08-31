@@ -1,5 +1,5 @@
 /*
- Name:		STEP800_proto_r3_firmware.ino
+ Name:		STEP800_firmware.ino
 
  target:    Arduino Zero
  Created:	2021/04/17 
@@ -31,9 +31,9 @@ const char *firmwareName = "STEP800_PROTO_R3";
 #elif defined(PROTOTYPE_BLACK)
 const char *firmwareName = "STEP800_PROTO_BLACK";
 #else
-const char *firmwareName = "STEP800_PROTO_R4";
+const char *firmwareName = "STEP800_R1";
 #endif
-const uint8_t firmwareVersion[3] = {0,0,1};
+const uint8_t firmwareVersion[3] = {0,1,0};
 const uint8_t applicableConfigVersion[2] = {1,0};
 
 // L6470

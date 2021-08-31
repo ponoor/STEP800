@@ -147,7 +147,8 @@ void OSCMsgReceive() {
             bMsgRouted |= msgIN.route("/getProhibitMotionOnHomeSw", getProhibitMotionOnHomeSw);
             // bMsgRouted |= msgIN.route("/setProhibitMotionOnLimitSw", setProhibitMotionOnLimitSw);
             // bMsgRouted |= msgIN.route("/getProhibitMotionOnLimitSw", getProhibitMotionOnLimitSw);
-
+            bMsgRouted |= msgIN.route("/getElPos", getElPos);
+            bMsgRouted |= msgIN.route("/setElPos", setElPos);
             turnOnRXL();
             if ((!bMsgRouted) && reportErrors) {
                 sendOneDatum("/error/osc", "MessageNotMatch");
@@ -2254,4 +2255,35 @@ void getServoParam(OSCMessage& msg, int addrOffset) {
 //     }
 // }
 
+void setElPos(OSCMessage& msg, int addrOffset) {
+    uint8_t motorID = getInt(msg, 0);
+    uint16_t newElPos = getInt(msg, 1);
+    if(isCorrectMotorId(motorID)) {
+        stepper[motorID - MOTOR_ID_FIRST].setElPos(newElPos);
+    }
+    else if (motorID == MOTOR_ID_ALL) {
+        for (uint8_t i = 0; i < NUM_OF_MOTOR; i++) {
+            stepper[i].setElPos(newElPos);
+        }
+    }
+}
+void getElPos(OSCMessage& msg, int addrOffset) {
+    uint8_t motorID = getInt(msg, 0);
+    uint16_t elPos;
+    uint8_t microStepPos, step;
+    if(isCorrectMotorId(motorID)) {
+        elPos = stepper[motorID - MOTOR_ID_FIRST].getElPos();
+        microStepPos = elPos&0x7F;
+        step = elPos>>7;
+        sendThreeInt("/elPos", motorID, step, microStepPos);
+    }
+    else if (motorID == MOTOR_ID_ALL) {
+        for (uint8_t i = 0; i < NUM_OF_MOTOR; i++) {
+            elPos = stepper[i].getElPos();
+            microStepPos = elPos&0x7F;
+            step = elPos>>7;
+            sendThreeInt("/elPos", i + MOTOR_ID_FIRST, step, microStepPos);
+        }
+    }
+}
 // #pragma endregion PowerSTEP01_config_osc_listener
