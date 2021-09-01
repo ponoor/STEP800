@@ -9,10 +9,13 @@ STEP800 is a 8-axis stepper motor driver designed for art or design projects. ST
 - Ethernet shield
 - 8 stepper motor drivers
 - Sensor inputs for homing
-- 
+
 The current firmware is focused on working with [Open Sound Control](http://opensoundcontrol.org/) (OSC) via Ethernet, which is a common protocol for creative coding environments, like openFrameworks, Processing, Max, Unity, or Touch Designer.
 
 Stepper driver chips are STMicroelectronics's [L6470](https://www.st.com/en/motor-drivers/l6470.html) which provide most of functionalities as a stepper driver.
+
+
+Friend of STEP800 : [STEP400](https://github.com/ponoor/STEP400)
 
 ## Documentation
 https://ponoor.com/en/docs/step-series/
