@@ -25,17 +25,18 @@
     #define HAS_SD
     #define ledPin	13u
     // L6470
-    #define L6470_MISO	6	// D6 /SERCOM3/PAD[2] miso
-    #define L6470_MOSI	11	// D11/SERCOM3/PAD[0] mosi
-    #define L6470_SCK	12	// D12/SERCOM3/PAD[3] sck
+    #define L6470
+    #define L6470_MISO	6u	// D6 /SERCOM3/PAD[2] miso
+    #define L6470_MOSI	11u	// D11/SERCOM3/PAD[0] mosi
+    #define L6470_SCK	12u	// D12/SERCOM3/PAD[3] sck
 
     #define L6470_CS_PIN A0
     #define L6470_RESET_PIN A2
     // Shift registers
     // 74HC165 shift register for dip switch and busy/flag input
-    #define MISO3	3 // SERCOM2/PAD[1]
-    #define MOSI3   2 // SERCOM2/PAD[2] // not in use
-    #define SCK3	0 // SERCOM2/PAD[3]
+    #define MISO3	3u // SERCOM2/PAD[1]
+    #define MOSI3   2u // SERCOM2/PAD[2] // not in use
+    #define SCK3	0u // SERCOM2/PAD[3]
     #define LATCH3	A5
     // Shift registers SPI
     extern SPIClass SPI3;
@@ -47,10 +48,11 @@
 #elif defined(PROTOTYPE_BLACK) // ----------------- Prototype D_L6470x8_black -----------------
     #define ledPin	4u
     // L6470
-    #define L6470_MISO	12	// 
-    #define L6470_MOSI	11	// 
-    #define L6470_SCK	13	// 
-    #define L6470_CS_PIN 9
+    #define L6470
+    #define L6470_MISO	12u	// 
+    #define L6470_MOSI	11u	// 
+    #define L6470_SCK	13u	// 
+    #define L6470_CS_PIN 9u
     #define L6470_RESET_PIN A5
     // Shift Registers
     #define MISO3   A3
@@ -63,17 +65,18 @@
     #define HAS_BRAKE
     #define ledPin	13u
     // L6470
-    #define L6470_MISO	6	// D6 /SERCOM3/PAD[2] miso
-    #define L6470_MOSI	11	// D11/SERCOM3/PAD[0] mosi
-    #define L6470_SCK	12	// D12/SERCOM3/PAD[3] sck
+    #define L6470
+    #define L6470_MISO	6u	// D6 /SERCOM3/PAD[2] miso
+    #define L6470_MOSI	11u	// D11/SERCOM3/PAD[0] mosi
+    #define L6470_SCK	12u	// D12/SERCOM3/PAD[3] sck
 
     #define L6470_CS_PIN A0
     #define L6470_RESET_PIN A2
     // Shift registers
     // 74HC165 +74HC595 for the dip sw input and the brake output
-    #define MISO3	3 // SERCOM2/PAD[1]
-    #define MOSI3   2 // SERCOM2/PAD[2]
-    #define SCK3	0 // SERCOM2/PAD[3]
+    #define MISO3	3u // SERCOM2/PAD[1]
+    #define MOSI3   2u // SERCOM2/PAD[2]
+    #define SCK3	0u // SERCOM2/PAD[3]
     #define LATCH3	A5
     // Shift registers SPI
     extern SPIClass SPI3;

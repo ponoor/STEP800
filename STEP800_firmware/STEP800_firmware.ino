@@ -1,5 +1,5 @@
 /*
- Name:		STEP800_proto_r3_firmware.ino
+ Name:		STEP800_firmware.ino
 
  target:    Arduino Zero
  Created:	2021/04/17 
@@ -31,9 +31,9 @@ const char *firmwareName = "STEP800_PROTO_R3";
 #elif defined(PROTOTYPE_BLACK)
 const char *firmwareName = "STEP800_PROTO_BLACK";
 #else
-const char *firmwareName = "STEP800_PROTO_R4";
+const char *firmwareName = "STEP800_R1";
 #endif
-const uint8_t firmwareVersion[3] = {0,0,1};
+const uint8_t firmwareVersion[3] = {0,1,0};
 const uint8_t applicableConfigVersion[2] = {1,0};
 
 // L6470
@@ -355,8 +355,8 @@ void updateServo(uint32_t currentTimeMicros) {
             if (isServoMode[i]) {
                 int32_t error = targetPosition[i] - stepper[i].getPos();
                 integral[i] += ((error + eZ1[i]) / 2.0f);
-                if (integral[i] > 1500.0) integral[i] = 1500.0;
-                else if (integral[i] < -1500.0) integral[i] = -1500.0;
+                if (integral[i] > 1500.0f) integral[i] = 1500.0f;
+                else if (integral[i] < -1500.0f) integral[i] = -1500.0f;
                 if (abs(error) > position_tolerance) {
                     double diff = error - eZ1[i];
 
@@ -364,11 +364,11 @@ void updateServo(uint32_t currentTimeMicros) {
                 }
                 // eZ2[i] = eZ1[i];
                 eZ1[i] = error;
-                float absSpd = abs(spd);
-                //if (absSpd < 1.) {
+                float absSpd = fabsf(spd);
+                //if (absSpd < 1.0f) {
                 //    spd = 0.0;
                 //}
-                stepper[i].run((spd > 0), absSpd);
+                stepper[i].run((spd > 0.0f), absSpd);
             }
         }
         lastServoUpdateTime = currentTimeMicros;

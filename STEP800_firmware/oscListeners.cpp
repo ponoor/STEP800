@@ -147,7 +147,8 @@ void OSCMsgReceive() {
             bMsgRouted |= msgIN.route("/getProhibitMotionOnHomeSw", getProhibitMotionOnHomeSw);
             // bMsgRouted |= msgIN.route("/setProhibitMotionOnLimitSw", setProhibitMotionOnLimitSw);
             // bMsgRouted |= msgIN.route("/getProhibitMotionOnLimitSw", getProhibitMotionOnLimitSw);
-
+            bMsgRouted |= msgIN.route("/getElPos", getElPos);
+            bMsgRouted |= msgIN.route("/setElPos", setElPos);
             turnOnRXL();
             if ((!bMsgRouted) && reportErrors) {
                 sendOneDatum("/error/osc", "MessageNotMatch");
@@ -644,7 +645,11 @@ void getHomingStatus(OSCMessage& msg, int addrOffset) {
 // STALL_TH register is 5bit in PowerSTEP01, 7bit in L6470
 void setStallThreshold(OSCMessage& msg, int addrOffset) {
     uint8_t motorID = getInt(msg, 0);
+    #ifdef L6470 
+    uint8_t threshold = getInt(msg, 1) & 0x7F; // 7bit
+    #else
     uint8_t threshold = getInt(msg, 1) & 0x1F; // 5bit
+    #endif
     if(isCorrectMotorId(motorID)) {
         motorID -= MOTOR_ID_FIRST;
         stepper[motorID].setParam(STALL_TH, threshold);
@@ -660,8 +665,13 @@ void setStallThreshold(OSCMessage& msg, int addrOffset) {
 }
 void getStallThreshold(uint8_t motorId) {
     if (!isDestIpSet) { return; }
+    #ifdef L6470
+    uint8_t stall_th_raw = stepper[motorId].getParam(STALL_TH) & 0x7F;
+    float threshold = (stall_th_raw + 1) * 31.25f;
+    # else
     uint8_t stall_th_raw = stepper[motorId].getParam(STALL_TH) & 0x1F;
-    float threshold = (stall_th_raw + 1) * 312.5;
+    float threshold = (stall_th_raw + 1) * 312.5f;
+    #endif
     sendTwoData("/stallThreshold", motorId + MOTOR_ID_FIRST, threshold);
 }
 void getStallThreshold(OSCMessage& msg, int addrOffset) {
@@ -679,7 +689,11 @@ void getStallThreshold(OSCMessage& msg, int addrOffset) {
 // OCD_TH register is 5bit in PowerSTEP01, 4bit in L6470
 void setOverCurrentThreshold(OSCMessage& msg, int addrOffset) {
     uint8_t motorID = getInt(msg, 0);
+    #ifdef L6470
+    uint8_t threshold = getInt(msg, 1) & 0xF; // 4bit
+    #else
     uint8_t threshold = getInt(msg, 1) & 0x1F; // 5bit
+    #endif
     if(isCorrectMotorId(motorID)) {
         stepper[motorID - MOTOR_ID_FIRST].setParam(OCD_TH, threshold);
         getOverCurrentThreshold(motorID);
@@ -689,14 +703,19 @@ void setOverCurrentThreshold(OSCMessage& msg, int addrOffset) {
         for (uint8_t i = 0; i < NUM_OF_MOTOR; i++) {
             stepper[i].setParam(OCD_TH, threshold);
             overCurrentThreshold[i] = threshold;
-            getOverCurrentThreshold(i + 1);
+            getOverCurrentThreshold(i + MOTOR_ID_FIRST);
         }
     }
 }
 void getOverCurrentThreshold(uint8_t motorID) {
     if (!isDestIpSet) { return; }
+    #ifdef L6470
+    uint8_t ocd_th_raw = stepper[motorID - MOTOR_ID_FIRST].getParam(OCD_TH) & 0xF;
+    float threshold = (ocd_th_raw + 1) * 375.0f;
+    #else
     uint8_t ocd_th_raw = stepper[motorID - MOTOR_ID_FIRST].getParam(OCD_TH) & 0x1F;
-    float threshold = (ocd_th_raw + 1) * 312.5;
+    float threshold = (ocd_th_raw + 1) * 312.5f;
+    #endif
     sendTwoData("/overCurrentThreshold", motorID, threshold);
 }
 void getOverCurrentThreshold(OSCMessage& msg, int addrOffset) {
@@ -807,55 +826,57 @@ void getBemfParam(uint8_t motorId) {
     turnOnTXL();
 }
 
-// void setDecayModeParam(OSCMessage& msg, int addrOffset) {
-//     uint8_t motorID = getInt(msg, 0);
-//     uint8_t
-//         tFast = constrain(getInt(msg, 1), 0, 255),
-//         tOnMin = constrain(getInt(msg, 2), 0, 255),
-//         tOffMin = constrain(getInt(msg, 3), 0, 255);
-//     if(isCorrectMotorId(motorID)) {
-//         motorID -= MOTOR_ID_FIRST;
-//         fastDecaySetting[motorID] = tFast;
-//         minOnTime[motorID] = tOnMin;
-//         minOffTime[motorID] = tOffMin;
-//         stepper[motorID].setParam(T_FAST, fastDecaySetting[motorID]);
-//         stepper[motorID].setParam(TON_MIN, minOnTime[motorID]);
-//         stepper[motorID].setParam(TOFF_MIN, minOffTime[motorID]);
-//     }
-//     else if (motorID == MOTOR_ID_ALL) {
-//         for (uint8_t i = 0; i < NUM_OF_MOTOR; i++) {
-//             fastDecaySetting[i] = tFast;
-//             minOnTime[i] = tOnMin;
-//             minOffTime[i] = tOffMin;
-//             stepper[i].setParam(T_FAST, fastDecaySetting[i]);
-//             stepper[i].setParam(TON_MIN, minOnTime[i]);
-//             stepper[i].setParam(TOFF_MIN, minOffTime[i]);
-//         }
-//     }
-// }
-// void getDecayModeParam(OSCMessage& msg, int addrOffset) {
-//     uint8_t motorID = getInt(msg, 0);
-//     if(isCorrectMotorId(motorID)) {
-//         motorID -= MOTOR_ID_FIRST;
-//         getDecayModeParam(motorID);
-//     }
-//     else if (motorID == MOTOR_ID_ALL) {
-//         for (uint8_t i = 0; i < NUM_OF_MOTOR; i++) {
-//             getDecayModeParam(i);
-//         }
-//     }
-// }
-// void getDecayModeParam(uint8_t motorId) {
-//     if (!isDestIpSet) { return; }
-//     OSCMessage newMes("/decayModeParam");
-//     newMes.add((int32_t)motorId+MOTOR_ID_FIRST);
-//     newMes.add(fastDecaySetting[motorId]).add(minOnTime[motorId]).add(minOffTime[motorId]);
-//     Udp.beginPacket(destIp, outPort);
-//     newMes.send(Udp);
-//     Udp.endPacket();
-//     newMes.empty();
-//     turnOnTXL();
-// }
+#ifdef POWERSTEP01
+void setDecayModeParam(OSCMessage& msg, int addrOffset) {
+    uint8_t motorID = getInt(msg, 0);
+    uint8_t
+        tFast = constrain(getInt(msg, 1), 0, 255),
+        tOnMin = constrain(getInt(msg, 2), 0, 255),
+        tOffMin = constrain(getInt(msg, 3), 0, 255);
+    if(isCorrectMotorId(motorID)) {
+        motorID -= MOTOR_ID_FIRST;
+        fastDecaySetting[motorID] = tFast;
+        minOnTime[motorID] = tOnMin;
+        minOffTime[motorID] = tOffMin;
+        stepper[motorID].setParam(T_FAST, fastDecaySetting[motorID]);
+        stepper[motorID].setParam(TON_MIN, minOnTime[motorID]);
+        stepper[motorID].setParam(TOFF_MIN, minOffTime[motorID]);
+    }
+    else if (motorID == MOTOR_ID_ALL) {
+        for (uint8_t i = 0; i < NUM_OF_MOTOR; i++) {
+            fastDecaySetting[i] = tFast;
+            minOnTime[i] = tOnMin;
+            minOffTime[i] = tOffMin;
+            stepper[i].setParam(T_FAST, fastDecaySetting[i]);
+            stepper[i].setParam(TON_MIN, minOnTime[i]);
+            stepper[i].setParam(TOFF_MIN, minOffTime[i]);
+        }
+    }
+}
+void getDecayModeParam(OSCMessage& msg, int addrOffset) {
+    uint8_t motorID = getInt(msg, 0);
+    if(isCorrectMotorId(motorID)) {
+        motorID -= MOTOR_ID_FIRST;
+        getDecayModeParam(motorID);
+    }
+    else if (motorID == MOTOR_ID_ALL) {
+        for (uint8_t i = 0; i < NUM_OF_MOTOR; i++) {
+            getDecayModeParam(i);
+        }
+    }
+}
+void getDecayModeParam(uint8_t motorId) {
+    if (!isDestIpSet) { return; }
+    OSCMessage newMes("/decayModeParam");
+    newMes.add((int32_t)motorId+MOTOR_ID_FIRST);
+    newMes.add(fastDecaySetting[motorId]).add(minOnTime[motorId]).add(minOffTime[motorId]);
+    Udp.beginPacket(destIp, outPort);
+    newMes.send(Udp);
+    Udp.endPacket();
+    newMes.empty();
+    turnOnTXL();
+}
+#endif
 
 void enableElectromagnetBrake(uint8_t motorId, bool bEnable) {
     electromagnetBrakeEnable[motorId] = bEnable;
@@ -2234,4 +2255,35 @@ void getServoParam(OSCMessage& msg, int addrOffset) {
 //     }
 // }
 
+void setElPos(OSCMessage& msg, int addrOffset) {
+    uint8_t motorID = getInt(msg, 0);
+    uint16_t newElPos = getInt(msg, 1);
+    if(isCorrectMotorId(motorID)) {
+        stepper[motorID - MOTOR_ID_FIRST].setElPos(newElPos);
+    }
+    else if (motorID == MOTOR_ID_ALL) {
+        for (uint8_t i = 0; i < NUM_OF_MOTOR; i++) {
+            stepper[i].setElPos(newElPos);
+        }
+    }
+}
+void getElPos(OSCMessage& msg, int addrOffset) {
+    uint8_t motorID = getInt(msg, 0);
+    uint16_t elPos;
+    uint8_t microStepPos, step;
+    if(isCorrectMotorId(motorID)) {
+        elPos = stepper[motorID - MOTOR_ID_FIRST].getElPos();
+        microStepPos = elPos&0x7F;
+        step = elPos>>7;
+        sendThreeInt("/elPos", motorID, step, microStepPos);
+    }
+    else if (motorID == MOTOR_ID_ALL) {
+        for (uint8_t i = 0; i < NUM_OF_MOTOR; i++) {
+            elPos = stepper[i].getElPos();
+            microStepPos = elPos&0x7F;
+            step = elPos>>7;
+            sendThreeInt("/elPos", i + MOTOR_ID_FIRST, step, microStepPos);
+        }
+    }
+}
 // #pragma endregion PowerSTEP01_config_osc_listener
