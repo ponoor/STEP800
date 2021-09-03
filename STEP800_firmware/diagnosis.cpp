@@ -118,19 +118,19 @@ void printCurrentState() {
 	showBoolResult(F("SD config file open succeeded"), configFileOpenSucceeded);
 	showBoolResult(F("SD config JSON parse succeeded"), configFileParseSucceeded);
 
-	printHeader("PowerSTEP01");
+	printHeader("Motor Driver");
 	uint16_t status[NUM_OF_MOTOR];
 	uint32_t temp = 0;
 	for (uint8_t i = 0; i < NUM_OF_MOTOR; i++) {
 		status[i] = stepper[i].getStatus();
 		temp += status[i];
 	}
-	showBoolResult(F("PowerSTEP01 SPI connection established"), temp != 0);
+	showBoolResult(F("L6470 SPI connection established"), temp != 0);
 	if (temp != 0) {
 		for (uint8_t i = 0; i < NUM_OF_MOTOR; i++)
 		{
 			temp = 0;
-			p("PowerSTEO01 ID#%d\n\tSTATUS: 0x%02X\n", i + 1, status[i]);
+			p("L6470 ID#%d\n\tSTATUS: 0x%02X\n", i + 1, status[i]);
 			bt = (status[i] & STATUS_HIZ) > 0; // HiZ, high for HiZ
 			showBoolResult(F("\tHigh impedance state"), bt);
 			showBoolResult(F("\tBUSY"), !(status[i] & STATUS_BUSY));
@@ -196,18 +196,6 @@ void printCurrentState() {
 			else {
 				p("-HOME senser input open.\n");
 			}
-			// ADC
-			temp = stepper[i].getParam(ADC_OUT);
-			p("\tADC_OUT: %d ", temp);
-			if (temp >= 28) {
-				p("-LIMIT senser input open.\n");
-			}
-			else if (temp < 5) {
-				p("-LIMIT senser input closed.\n");
-			}
-			else {
-				p("Unexpected value.\n");
-			}
 		}
 	}
 	
@@ -222,7 +210,6 @@ void printCurrentState() {
 	}
 	printAllData(F("Homing status"), homingStatus);
 }
-
 
 void printConfigurations() {
 	boldHeader("Configurations");
@@ -257,12 +244,11 @@ void printConfigurations() {
 	showBoolResult(F("isDestIpSet"), isDestIpSet);
 	showBoolResult(F("reportErrors"), reportErrors);
 
-	printHeader("Report & Alarm");
-	showAllBools("reportBUSY", reportBUSY); 
+	printHeader(F("Report & Alarm"));
+	showAllBools(F("reportBUSY"), reportBUSY); 
 	showAllBools(F("reportBUSY"), reportBUSY);
 	showAllBools(F("reportHiZ"), reportHiZ);
 	showAllBools(F("reportHomeSwStatus"), reportHomeSwStatus);
-	// showAllBools(F("reportLimitSwStatus"), reportLimitSwStatus);
 	showAllBools(F("reportDir"), reportDir);
 	showAllBools(F("reportMotorStatus"), reportMotorStatus);
 	showAllBools(F("reportSwEvn"), reportSwEvn);
@@ -275,52 +261,39 @@ void printConfigurations() {
 
 	printHeader("driverSettings");
 	showAllBools(F("homingAtStartup"), bHomingAtStartup);
-	// showAllBools(F("homingDirection(1:FWD,0:REV)"),homingDirection);
-	p("homingDirection(1:FWD,0:REV) : %d, %d, %d, %d\n", homingDirection[0], homingDirection[1], homingDirection[2], homingDirection[3]);
+	p("homingDirection(1:FWD,0:REV) : %d, %d, %d, %d, %d, %d, %d, %d\n", homingDirection[0], homingDirection[1], homingDirection[2], homingDirection[3], homingDirection[4], homingDirection[5], homingDirection[6], homingDirection[7]);
 	printAllData(F("homingSpeed"), homingSpeed);
 	printAllData(F("homeSwMode"), homeSwMode);
 	showAllBools(F("prohibitMotionOnHomeSw"),bProhibitMotionOnHomeSw);
-	// printAllData(F("limitSwMode"), limitSwMode);
-	// showAllBools(F("prohibitMotionOnLimitSw"),bProhibitMotionOnLimitSw);
 	printAllData(F("goUntilTimeout"), goUntilTimeout);
 	printAllData(F("releaseSwTimeout"), releaseSwTimeout);
-	printAllData("microStepMode", microStepMode);
-	// showAllBools(F("isCurrentMode"), isCurrentMode);
-	printAllData("slewRate", slewRateNum);
+	printAllData(F("microStepMode"), microStepMode);
+	printAllData(F("slewRate"), slewRateNum);
 	showAllBools(F("electromagnetBrakeEnable"), electromagnetBrakeEnable);
 	printAllData(F("brakeTransitionDuration"), brakeTransitionDuration);
 
-	printHeader("speedProfile");
-	printAllData("acc", acc);
-	printAllData("dec", dec);
-	printAllData("maxSpeed", maxSpeed);
-	printAllData("fullStepSpeed", fullStepSpeed);
+	printHeader(F("speedProfile"));
+	printAllData(F("acc"), acc);
+	printAllData(F("dec"), dec);
+	printAllData(F("maxSpeed"), maxSpeed);
+	printAllData(F("fullStepSpeed"), fullStepSpeed);
 
-	printHeader("Voltage mode");
-	printAllData("kvalHold", kvalHold);
-	printAllData("kvalRun", kvalRun);
-	printAllData("kvalAcc", kvalAcc);
-	printAllData("kvalDec", kvalDec);
-	printAllData("intersectSpeed", intersectSpeed);
-	printAllData("startSlope", startSlope);
-	printAllData("accFinalSlope", accFinalSlope);
-	printAllData("decFinalSlope", decFinalSlope);
-	printAllData("stallThreshold", stallThreshold);
-	printAllData("lowSpeedOptimize", lowSpeedOptimize);
+	printHeader(F("Voltage mode"));
+	printAllData(F("kvalHold"), kvalHold);
+	printAllData(F("kvalRun"), kvalRun);
+	printAllData(F("kvalAcc"), kvalAcc);
+	printAllData(F("kvalDec"), kvalDec);
+	printAllData(F("intersectSpeed"), intersectSpeed);
+	printAllData(F("startSlope"), startSlope);
+	printAllData(F("accFinalSlope"), accFinalSlope);
+	printAllData(F("decFinalSlope"), decFinalSlope);
+	printAllData(F("stallThreshold"), stallThreshold);
+	printAllData(F("lowSpeedOptimize"), lowSpeedOptimize);
 
-	// printHeader("Current mode");
-	// printAllData("tvalHold", tvalHold);
-	// printAllData("tvalRun", tvalRun);
-	// printAllData("tvalAcc", tvalAcc);
-	// printAllData("tvalDec", tvalDec);
-	// printAllData("fastDecaySetting", fastDecaySetting);
-	// printAllData("minOnTime", minOnTime);
-	// printAllData("minOffTime", minOffTime);
-
-	printHeader("Servo mode");
-	printAllData("kP", kP);
-	printAllData("kI", kI);
-	printAllData("kD", kD);
+	printHeader(F("Servo mode"));
+	printAllData(F("kP"), kP);
+	printAllData(F("kI"), kI);
+	printAllData(F("kD"), kD);
 }
 
 void printTitle(String title) {
@@ -334,26 +307,27 @@ void showBoolResult(String title, bool val) {
 
 template <class T>
 T printAllData(String title, T* val) {
+	String out;
 	printTitle(title);
 	for (uint8_t i = 0; i < NUM_OF_MOTOR; i++)
 	{
-		SerialUSB.print(val[i]);
-		if (i < (NUM_OF_MOTOR-1)) SerialUSB.print(", ");
+		out += val[i];
+		if (i < (NUM_OF_MOTOR-1)) out +=", ";
 	}
-	SerialUSB.println();
+	SerialUSB.println(out);
 }
 
-
 void showAllBools(String title, bool* val) {
+	String out;
 	printTitle(title);
 	SerialUSB.print(" ");
 	for (uint8_t i = 0; i < NUM_OF_MOTOR; i++)
 	{
-		String res = (val[i]) ? "Yes" : "No";
-		SerialUSB.print(res);
-		if (i<(NUM_OF_MOTOR-1)) SerialUSB.print(", ");
+		out += (val[i]) ? "Yes" : "No";
+		if (i<(NUM_OF_MOTOR-1)) out +=", ";
 	}
-	SerialUSB.println();
+	
+	SerialUSB.println(out);
 }
 
 void showIpAddress(String title, IPAddress ip) {
