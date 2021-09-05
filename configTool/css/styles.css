@@ -24,9 +24,9 @@ body { font-family: BlinkMacSystemFont, -apple-system, "Helvetica Neue", Arial, 
 /* content
 --------------------------------------------------- */
 .container { margin: 8rem auto; width: 92.19%; max-width: 96rem; min-width: 88rem; }
-h1 { display: flex; align-items: flex-end; margin-bottom: 6.4rem; font-weight: 600; font-size: 4.8rem; }
+h1 { display: -webkit-flex; display: flex; -webkit-align-items: flex-end; align-items: flex-end; margin-bottom: 6.4rem; font-weight: 600; font-size: 4.8rem; }
 h1 > span { display: inline-block; margin-bottom: 0.5rem; margin-left: 1.6rem; padding: 0.4rem 1.2rem; background-color: #eee; border-radius: 2.4rem; font-size: 1.6rem; }
-.heading-wrap { margin-top: 6.4rem; margin-bottom: 4rem; display: flex; align-items: center; }
+.heading-wrap { margin-top: 6.4rem; margin-bottom: 4rem; display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; }
 .heading-wrap > h2 { margin-right: 3.2rem; font-weight: 600; font-size: 3.2rem; }
 .file-input input[type="file"] { display: none; }
 .file-input label { display: inline-block; position: relative; cursor: pointer; padding: 1rem 2rem; border-radius: 0.2rem; margin-right: 0.8rem; background-color: #1e90ff; color: #fff; font-weight: 600; font-size: 1.4rem; transition: opacity 0.2s ease-out; }
@@ -38,36 +38,38 @@ h1 > span { display: inline-block; margin-bottom: 0.5rem; margin-left: 1.6rem; p
 .file-export > input[type="submit"] { width: 28rem; height: 100%; border: 0; outline: none; padding: 2rem 0; background-color: #1e90ff; border-radius: 0.2rem; font-weight: 600; font-size: 2rem; color: #fff; text-align: center; cursor: pointer; transition: opacity 0.2s ease-out; }
 .file-export > input[type="submit"]:hover { opacity: 0.8; }
 .input-setting { padding: 0.8rem 1.2rem; border: 1px solid #eee; border-radius: 0.2rem; }
-.input-setting > .label { display: flex; align-items: center; font-weight: 600; }
+.input-setting > .label { display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; font-weight: 600; }
 .input-setting > .label input { margin-left: 0.8rem; }
-.input-list { border-bottom: 1px solid #eee; min-width: 82rem; }
-.input-list > li { display: flex; align-items: center; }
-.input-list > li > .input-label { width: 30rem; }
-.input-list > li > .input-items { width: calc(100% - 30rem); }
+.input-list { border-bottom: 1px solid #eee; }
+.input-list > li { display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; }
+.input-list > li > .input-label { width: calc(100% - 66rem); padding-right: 0.5rem; }
+.input-list > li > .input-items { width: 66rem; }
 .input-list > li.heading { padding-bottom: 0.8rem; border-bottom: 1px solid #eee; font-weight: 600; font-size: 1.4rem; }
 .input-list > li:not(.heading) { padding: 1.2rem 0; border-top: 1px solid #eee; }
-.input-items { display: flex; align-items: center; }
-.input-items > p, .input-items > select { width: 12rem; margin-right: 0.2rem; }
+.input-label { position: relative; font-weight: 600; }
+.input-label > .hint { border-bottom: 1px dotted rgba(54, 54, 54, 0.6); cursor: pointer; position: relative; }
+.input-label > .hint:hover + .tooltip { display: block; }
+.input-label > .tooltip { display: none; position: absolute; left: 0.8rem; top: 3.2rem; z-index: 9999; max-width: 80%; padding: 1.2rem 1.6rem; color: #fff; background-color: #555; border-radius: 0.2rem; font-size: 1.4rem; line-height: 1.5; }
+.input-label > .tooltip::after { width: 100%; content: ""; display: block; position: absolute; left: 0.8rem; top: -8px; border-top: 8px solid transparent; border-left: 8px solid #555; }
+.input-items { display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; }
+.input-items > p, .input-items > select, .input-items > input[type="text"], .input-items > input[type="number"] { margin-right: 0.2rem; }
+.input-items > p, .input-items > select { width: 12rem; }
 .input-items > input[type="text"] { width: 22.8rem; }
 .input-items > input[type="number"] { width: 11rem; }
-.input-items > input[type="text"], .input-items > input[type="number"] { margin-right: 0.2rem; outline: none; padding: 0.5rem 0.2rem 0.5rem 0.6rem; background-color: #fff; border: 0.1rem solid #d3d3d3; border-radius: 0.2rem; font-size: 1.4rem; }
+.input-items > input[type="text"], .input-items > input[type="number"] { outline: none; padding: 0.5rem 0.2rem 0.5rem 0.6rem; background-color: #fff; border: 0.1rem solid #d3d3d3; border-radius: 0.2rem; font-size: 1.4rem; }
 .input-items > input[type="text"]:focus, .input-items > input[type="number"]:focus { box-shadow: inset 0 0 2px 0 #1e90ff; }
 .input-items > input[type="checkbox"] { width: 1.6rem; margin-right: 6.6rem; }
 .input-items > input[disabled="disabled"], .input-items > select[disabled="disabled"], .input-items > p[disabled="disabled"] { display: none; }
 .input-items > input[readonly="readonly"] { outline: 0; background-color: #eee; cursor: not-allowed; }
 .input-items > input[readonly="readonly"]:focus { box-shadow: none; }
-.input-items > .btn { display: flex; align-items: center; margin-left: 1.2rem; font-size: 1.4rem; line-height: 1.6rem; }
+.input-items > .btn { display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; margin-left: 1.2rem; font-size: 1.4rem; line-height: 1.6rem; }
 .input-items > .btn > input { margin-right: 0.6rem; }
 .input-items.-sm > input[type="text"], .input-items.-sm > input[type="number"] { width: 4.8rem; }
-.input-list.-motor .input-items > p, .input-list.-motor .input-items > select, .input-list.-motor .input-items > input[type="text"], .input-list.-motor .input-items > input[type="number"] { margin-right: 0.8rem; }
-.input-list.-motor .input-items > p, .input-list.-motor .input-items > select { width: 12rem; }
-.input-list.-motor .input-items > input[type="number"] { width: 11rem; }
-.input-list.-motor .input-items > input[type="checkbox"] { width: 1.6rem; margin-right: 11.200000000000001rem; }
-.input-label { position: relative; font-weight: 600; }
-.input-label .hint { border-bottom: 1px dotted rgba(54, 54, 54, 0.6); cursor: pointer; position: relative; }
-.input-label .hint:hover + .tooltip { display: block; }
-.input-label .tooltip { display: none; position: absolute; left: 0.8rem; top: 3.2rem; z-index: 9999; max-width: 80%; padding: 1.2rem 1.6rem; color: #fff; background-color: #555; border-radius: 0.2rem; font-size: 1.4rem; line-height: 1.5; }
-.input-label .tooltip::after { width: 100%; content: ""; display: block; position: absolute; left: 0.8rem; top: -8px; border-top: 8px solid transparent; border-left: 8px solid #555; }
+.input-list.-motor .input-items > .unit { display: block; font-size: 0.8em; }
+.input-list.-motor .input-items > p, .input-list.-motor .input-items > select, .input-list.-motor .input-items > input[type="text"], .input-list.-motor .input-items > input[type="number"] { margin-right: 0.4rem; }
+.input-list.-motor .input-items > p, .input-list.-motor .input-items > select { width: 7.2rem; }
+.input-list.-motor .input-items > input[type="number"] { width: 6.2rem; }
+.input-list.-motor .input-items > input[type="checkbox"] { width: 1.6rem; margin-right: 6rem; }
 
 /* IE */
 _:-ms-lang(x), .file-input > label { display: none; }
