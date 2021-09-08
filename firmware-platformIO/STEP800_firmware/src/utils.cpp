@@ -196,8 +196,8 @@ void sendCommandError(uint8_t motorId, uint8_t errorNum)
 {
     if (reportErrors) {
         sendTwoData(F("/error/command"), commandErrorText[errorNum].c_str(), motorId);
-        if (SerialUSB)
-            p("/error/command %s %d\n", commandErrorText[errorNum].c_str(), motorId);
+        //if (SerialUSB)
+            //p("/error/command %s %d\n", commandErrorText[errorNum].c_str(), motorId);
     }
 }
 

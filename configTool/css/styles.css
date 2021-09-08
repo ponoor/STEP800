@@ -24,18 +24,19 @@ body { font-family: BlinkMacSystemFont, -apple-system, "Helvetica Neue", Arial, 
 /* content
 --------------------------------------------------- */
 .container { margin: 8rem auto; width: 92.19%; max-width: 96rem; min-width: 88rem; }
+.line-ponoor { position: relative; width: 100%; height: 0.4rem; border: 0; background-color: #8d3f2b; background-image: linear-gradient(117deg, #8d3f2b 0% 55%, #363636 55% 70%, #e6e6e6 70% 82%, #ff6720 82% 95%, #fbde40 95% 100%); }
 h1 { display: -webkit-flex; display: flex; -webkit-align-items: flex-end; align-items: flex-end; margin-bottom: 6.4rem; font-weight: 600; font-size: 4.8rem; }
 h1 > span { display: inline-block; margin-bottom: 0.5rem; margin-left: 1.6rem; padding: 0.4rem 1.2rem; background-color: #eee; border-radius: 2.4rem; font-size: 1.6rem; }
 .heading-wrap { margin-top: 6.4rem; margin-bottom: 4rem; display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; }
 .heading-wrap > h2 { margin-right: 3.2rem; font-weight: 600; font-size: 3.2rem; }
 .file-input input[type="file"] { display: none; }
-.file-input label { display: inline-block; position: relative; cursor: pointer; padding: 1rem 2rem; border-radius: 0.2rem; margin-right: 0.8rem; background-color: #1e90ff; color: #fff; font-weight: 600; font-size: 1.4rem; transition: opacity 0.2s ease-out; }
+.file-input label { display: inline-block; position: relative; cursor: pointer; padding: 1rem 2rem; border-radius: 0.2rem; margin-right: 0.8rem; background-color: #ff6720; color: #fff; font-weight: 600; font-size: 1.4rem; transition: opacity 0.2s ease-out; }
 .file-input label:after { content: "No file selected"; color: #808080; font-size: 1.4rem; height: 2rem; line-height: 2rem; position: absolute; right: -12.4rem; top: calc(50% - 1rem); }
 .file-input label:hover { opacity: 0.8; }
 .file-input label.changed:after { content: ""; }
 .file-input .filename { font-size: 1.4rem; }
 .file-export { margin-top: 8rem; width: 100%; }
-.file-export > input[type="submit"] { width: 28rem; height: 100%; border: 0; outline: none; padding: 2rem 0; background-color: #1e90ff; border-radius: 0.2rem; font-weight: 600; font-size: 2rem; color: #fff; text-align: center; cursor: pointer; transition: opacity 0.2s ease-out; }
+.file-export > input[type="submit"] { width: 28rem; height: 100%; border: 0; outline: none; padding: 2rem 0; background-color: #ff6720; border-radius: 0.2rem; font-weight: 600; font-size: 2rem; color: #fff; text-align: center; cursor: pointer; transition: opacity 0.2s ease-out; }
 .file-export > input[type="submit"]:hover { opacity: 0.8; }
 .input-setting { padding: 0.8rem 1.2rem; border: 1px solid #eee; border-radius: 0.2rem; }
 .input-setting > .label { display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; font-weight: 600; }
@@ -57,7 +58,7 @@ h1 > span { display: inline-block; margin-bottom: 0.5rem; margin-left: 1.6rem; p
 .input-items > input[type="text"] { width: 22.8rem; }
 .input-items > input[type="number"] { width: 11rem; }
 .input-items > input[type="text"], .input-items > input[type="number"] { outline: none; padding: 0.5rem 0.2rem 0.5rem 0.6rem; background-color: #fff; border: 0.1rem solid #d3d3d3; border-radius: 0.2rem; font-size: 1.4rem; }
-.input-items > input[type="text"]:focus, .input-items > input[type="number"]:focus { box-shadow: inset 0 0 2px 0 #1e90ff; }
+.input-items > input[type="text"]:focus, .input-items > input[type="number"]:focus { box-shadow: inset 0 0 2px 0 #ff6720; }
 .input-items > input[type="checkbox"] { width: 1.6rem; margin-right: 6.6rem; }
 .input-items > input[disabled="disabled"], .input-items > select[disabled="disabled"], .input-items > p[disabled="disabled"] { display: none; }
 .input-items > input[readonly="readonly"] { outline: 0; background-color: #eee; cursor: not-allowed; }
