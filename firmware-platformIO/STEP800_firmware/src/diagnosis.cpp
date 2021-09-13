@@ -31,6 +31,9 @@ void diagnosisCommand(uint8_t inByte) {
 	case 't':
 		testMotion();
 		break;
+	case 'b':
+		testBrake();
+		break;
 	default:
 		break;
 	}
@@ -41,6 +44,7 @@ void printMenu() {
 	p("s: show status\n");
 	p("c: show config\n");
 	p("t: test motion\n");
+	p("b: test brake\n");
 }
 
 void testMotion() {
@@ -339,4 +343,16 @@ void boldHeader(String header) {
 }
 void printHeader(String header) {
 	p("-------------- %s --------------\n", header.c_str());
+}
+
+void testBrake(){
+	static uint8_t brakeTestCount =0;
+	setBrake(brakeTestCount, LOW);
+	p("Turn off #%d, ", brakeTestCount + 1);
+	brakeTestCount++;
+	if(brakeTestCount >= NUM_OF_MOTOR) {
+		brakeTestCount = 0;
+	}
+	p("Turn on #%d\n", brakeTestCount+ 1);
+	setBrake(brakeTestCount, HIGH);
 }
