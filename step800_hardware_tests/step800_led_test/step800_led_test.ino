@@ -76,10 +76,11 @@ void setup() {
   for (uint8_t i = 0; i < NUM_OF_MOTOR; i++)
   {
       stepper[i].SPIPortConnect(&L6470SPI);
-      //digitalWrite(ledPin, HIGH);
+      // digitalWrite(ledPin, HIGH);
+      // delay(5);
+      // digitalWrite(ledPin, LOW);
+      stepper[i].getStatus();
       delay(5);
-      //digitalWrite(ledPin, LOW);
-      //delay(5);
   }
 
 }
