@@ -165,7 +165,7 @@ bool getBool(OSCMessage &msg, uint8_t offset)
     bool msgVal = 0;
 	if (msg.isFloat(offset))
 	{
-		msgVal = msg.getFloat(offset) >= 1.0;
+		msgVal = msg.getFloat(offset) >= 1.0f;
 	}
 	else if (msg.isInt(offset))
 	{

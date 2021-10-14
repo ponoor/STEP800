@@ -15,7 +15,7 @@
 #include <ArduinoJson.h> //https://arduinojson.org/
 #include <Adafruit_SleepyDog.h> // https://github.com/adafruit/Adafruit_SleepyDog
 
-#include <Ponoor_L6470Constants.h>
+#include <Ponoor_L6470Constants.h> // https://github.com/ponoor/Ponoor_L6470_Library
 #include <Ponoor_L6470Library.h>
 
 // Local files
@@ -33,7 +33,7 @@ const char *firmwareName = "STEP800_PROTO_BLACK";
 #else
 const char *firmwareName = "STEP800_R1";
 #endif
-const uint8_t firmwareVersion[3] = {0,1,1};
+const uint8_t firmwareVersion[3] = {0,1,2};
 const uint8_t applicableConfigVersion[2] = {1,0};
 
 // L6470
