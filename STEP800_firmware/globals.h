@@ -116,11 +116,13 @@ extern uint32_t RXL_blinkStartTime, TXL_blinkStartTime;
 
 // Json configuration file
 constexpr char* filename = "/config.txt";
+const String productName = "STEP800";
 extern String configName;
 extern String configTargetProduct;
 extern bool sdInitializeSucceeded;
 extern bool configFileOpenSucceeded;
 extern bool configFileParseSucceeded;
+extern bool configProductApplicable;
 
 // L6470
 #define NUM_OF_MOTOR   (8)

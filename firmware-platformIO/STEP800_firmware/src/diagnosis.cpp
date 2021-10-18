@@ -31,6 +31,9 @@ void diagnosisCommand(uint8_t inByte) {
 	case 't':
 		testMotion();
 		break;
+	case 'b':
+		testBrake();
+		break;
 	default:
 		break;
 	}
@@ -41,6 +44,7 @@ void printMenu() {
 	p("s: show status\n");
 	p("c: show config\n");
 	p("t: test motion\n");
+	p("b: test brake\n");
 }
 
 void testMotion() {
@@ -61,6 +65,7 @@ void printCurrentState() {
 	p("Applicable config version : %d.%d\n", applicableConfigVersion[0],applicableConfigVersion[1]);
 	p("Loaded config version : %d.%d [%s]\n", loadedConfigVersion[0], loadedConfigVersion[1],
 		configVersionCompareString[checkConfigVersion()].c_str());
+	showBoolResult(F("Config and product match"), configProductApplicable);
 	printHeader("DIP Switch");
 	p("BIN : ");
 	uint8_t t = getMyId();
@@ -218,6 +223,7 @@ void printConfigurations() {
 	showBoolResult(F("SD config file open succeeded"), configFileOpenSucceeded);
 	showBoolResult(F("SD config file parse succeeded"), configFileParseSucceeded);
 	p("configTargetProduct : %s\n", configTargetProduct.c_str());
+	showBoolResult(F("Config and product match"), configProductApplicable);
 	p("configName : %s\n", configName.c_str());
 	p("config version : %d.%d [%s]\n", loadedConfigVersion[0], loadedConfigVersion[1],
 		configVersionCompareString[checkConfigVersion()].c_str());
@@ -339,4 +345,16 @@ void boldHeader(String header) {
 }
 void printHeader(String header) {
 	p("-------------- %s --------------\n", header.c_str());
+}
+
+void testBrake(){
+	static uint8_t brakeTestCount =0;
+	setBrake(brakeTestCount, LOW);
+	p("Turn off #%d, ", brakeTestCount + 1);
+	brakeTestCount++;
+	if(brakeTestCount >= NUM_OF_MOTOR) {
+		brakeTestCount = 0;
+	}
+	p("Turn on #%d\n", brakeTestCount+ 1);
+	setBrake(brakeTestCount, HIGH);
 }

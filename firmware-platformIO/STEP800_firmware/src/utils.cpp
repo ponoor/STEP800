@@ -165,7 +165,7 @@ bool getBool(OSCMessage &msg, uint8_t offset)
     bool msgVal = 0;
 	if (msg.isFloat(offset))
 	{
-		msgVal = msg.getFloat(offset) >= 1.0;
+		msgVal = msg.getFloat(offset) >= 1.0f;
 	}
 	else if (msg.isInt(offset))
 	{
@@ -196,8 +196,8 @@ void sendCommandError(uint8_t motorId, uint8_t errorNum)
 {
     if (reportErrors) {
         sendTwoData(F("/error/command"), commandErrorText[errorNum].c_str(), motorId);
-        if (SerialUSB)
-            p("/error/command %s %d\n", commandErrorText[errorNum].c_str(), motorId);
+        //if (SerialUSB)
+            //p("/error/command %s %d\n", commandErrorText[errorNum].c_str(), motorId);
     }
 }
 
