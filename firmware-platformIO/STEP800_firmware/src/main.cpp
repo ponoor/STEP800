@@ -36,7 +36,7 @@ const char *firmwareName = "STEP800_R1";
 const uint8_t firmwareVersion[3] = {1,0,0};
 const uint8_t applicableConfigVersion[2] = {1,0};
 
-// L6470
+// L6470vh
 #ifdef PROTOTYPE_BLACK
 SPIClass L6470SPI(&sercom1, L6470_MISO, L6470_SCK, L6470_MOSI, SPI_PAD_0_SCK_1, SERCOM_RX_PAD_3);// MISO/SCK/MOSI pins
 #else

@@ -15,6 +15,7 @@ bool sdInitializeSucceeded = false;
 bool configFileOpenSucceeded = false;
 bool configFileParseSucceeded = false;
 int8_t loadedConfigVersion[2] = {-1,0};
+bool configProductApplicable = false;
 
 // L6470
 AutoDriver stepper[] = {

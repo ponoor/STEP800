@@ -65,6 +65,7 @@ void printCurrentState() {
 	p("Applicable config version : %d.%d\n", applicableConfigVersion[0],applicableConfigVersion[1]);
 	p("Loaded config version : %d.%d [%s]\n", loadedConfigVersion[0], loadedConfigVersion[1],
 		configVersionCompareString[checkConfigVersion()].c_str());
+	showBoolResult(F("Config and product match"), configProductApplicable);
 	printHeader("DIP Switch");
 	p("BIN : ");
 	uint8_t t = getMyId();
@@ -222,6 +223,7 @@ void printConfigurations() {
 	showBoolResult(F("SD config file open succeeded"), configFileOpenSucceeded);
 	showBoolResult(F("SD config file parse succeeded"), configFileParseSucceeded);
 	p("configTargetProduct : %s\n", configTargetProduct.c_str());
+	showBoolResult(F("Config and product match"), configProductApplicable);
 	p("configName : %s\n", configName.c_str());
 	p("config version : %d.%d [%s]\n", loadedConfigVersion[0], loadedConfigVersion[1],
 		configVersionCompareString[checkConfigVersion()].c_str());
