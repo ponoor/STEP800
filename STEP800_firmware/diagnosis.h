@@ -27,4 +27,5 @@ void showIpAddress(String title, IPAddress ip);
 void boldHeader(String header);
 void printHeader(String header);
 
+void testBrake();
 #endif

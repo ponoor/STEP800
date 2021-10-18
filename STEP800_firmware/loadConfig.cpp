@@ -39,6 +39,7 @@ void loadConfig() {
         }
     }
     configTargetProduct = information["targetProduct"] | "---";
+    configProductApplicable = (configTargetProduct == productName);
 
     // Network
     JsonObject network = doc["network"];
