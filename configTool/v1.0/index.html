@@ -12,7 +12,7 @@
 <div class="container">
 
 
-<h1>STEP800 configuration tool <span>rev 1.1</span></h1>
+<h1>STEP800 configuration tool <span>rev 1.0</span></h1>
 
 <div class="file-input">
     <input type='file' name="load" class="file" id="test">
@@ -41,7 +41,7 @@
     </div>
     <div class="input-items -sm">
         <input type="number" name="configVersion" size="10" min="0" max="255" value="1" readonly="readonly">
-        <input type="number" name="configVersion" size="10" min="0" max="255" value="1" readonly="readonly">
+        <input type="number" name="configVersion" size="10" min="0" max="255" value="0" readonly="readonly">
     </div>
 </li>
 <li>
@@ -62,7 +62,7 @@
 <li>
     <div class="input-label">
         <label class="hint">My IP address</label>
-        <p class="tooltip">IP address of STEP800.</p>
+        <p class="tooltip">IP address of STEP400.</p>
     </div>
     <div class="input-items -sm">
         <input type="number" name="myIp" size="10" min="0" max="255" value="10">
@@ -83,7 +83,7 @@
 <li>
     <div class="input-label">
         <label class="hint">Destination IP</label>
-        <p class="tooltip">Specify where STEP800 responses have to be sent.</p>
+        <p class="tooltip">Specify where STEP400 responses have to be sent.</p>
     </div>
     <div class="input-items -sm">
         <input type="number" name="destIp" size="10" min="0" max="255" value="10">
@@ -131,14 +131,14 @@
 <li>
     <div class="input-label">
         <label class="hint">Incoming port</label>
-        <p class="tooltip">Port number for the communication from PC to STEP800.</p>
+        <p class="tooltip">Port number for the communication from PC to STEP400.</p>
     </div>
     <div class="input-items"><input type="number" name="inPort" size="30" value="50000"></div>
 </li>
 <li>
     <div class="input-label">
         <label class="hint">Outgoing port</label>
-        <p class="tooltip">Port number for the communication from STEP800 to PC.</p>
+        <p class="tooltip">Port number for the communication from STEP400 to PC.</p>
     </div>
     <div class="input-items"><input type="number" name="outPort" size="30" value="50100"></div>
 </li>
@@ -152,7 +152,7 @@
 <li>
     <div class="input-label">
         <label class="hint">MAC address</label>
-        <p class="tooltip">MAC address of STEP800.</p>
+        <p class="tooltip">MAC address of STEP400.</p>
     </div>
     <div class="input-items -sm">
         <input type="text" name="mac" size="10" min="0" max="255" value="60">
@@ -174,21 +174,21 @@
 <li>
     <div class="input-label">
         <label class="hint">Booted message enable</label>
-        <p class="tooltip">Send /booted message when STEP800 is booted or restarted.</p>
+        <p class="tooltip">Send /booted message when STEP400 is booted or restarted.</p>
     </div>
     <div class="input-items"><input type="checkbox" name="bootedMsgEnable" checked></div>
 </li>
 <li>
     <div class="input-label">
         <label class="hint">Allow OSC reply before /setDestIp</label>
-        <p class="tooltip">If this box is checked, STEP800 can send response messages even before receiving the /setDestIp message.</p>
+        <p class="tooltip">If this box is checked, STEP400 can send response messages even before receiving the /setDestIp message.</p>
     </div>
     <div class="input-items"><input type="checkbox" name="canSendMsgBeforeDestIp"></div>
 </li>
 <li>
     <div class="input-label">
         <label class="hint">Report errors</label>
-            <p class="tooltip">Enable error messages from STEP800.</p>
+            <p class="tooltip">Enable error messages from STEP400.</p>
     </div>
     <div class="input-items"><input type="checkbox" name="reportError" checked></div>
 </li>
@@ -1033,25 +1033,6 @@
         <span class="unit">step/s/s</span>
     </div>
 </li>
-<li>
-    <div class="input-label">
-        <label class="hint">Min speed</label>
-        <p class="tooltip">This value defines a minimum speed of the motor, and also releaseSw speed which is a part of the homing procedure.</p>
-    </div>
-    <div class="input-items">
-        <input type="number" name="minSpeed" min="0.0" max="976.3" value="0" step="0.01">
-        <input type="number" name="minSpeed" min="0.0" max="976.3" value="0" step="0.01">
-        <input type="number" name="minSpeed" min="0.0" max="976.3" value="0" step="0.01">
-        <input type="number" name="minSpeed" min="0.0" max="976.3" value="0" step="0.01">
-        <input type="number" name="minSpeed" min="0.0" max="976.3" value="0" step="0.01">
-        <input type="number" name="minSpeed" min="0.0" max="976.3" value="0" step="0.01">
-        <input type="number" name="minSpeed" min="0.0" max="976.3" value="0" step="0.01">
-        <input type="number" name="minSpeed" min="0.0" max="976.3" value="0" step="0.01">
-        <input type="number" name="minSpeed" min="0.0" max="976.3" value="0" step="0.01">
-        <span class="unit">step/s</span>
-    </div>
-</li>
-</ul>
 </ul>
 
 <div class="heading-wrap">
@@ -1240,25 +1221,7 @@
 </li>
 <li>
     <div class="input-label">
-        <label class="hint">Low speed optimization enable</label>
-        <p class="tooltip">Reduce the phase current distortion at a very low speed using a small driving voltage. When this optimization is enabled, speed profile minimum speed is forced to zero.</p>
-    </div>
-    <div class="input-items">
-        <input type="checkbox" name="lowSpeedOptimizeEnable">
-        <input type="checkbox" name="lowSpeedOptimizeEnable">
-        <input type="checkbox" name="lowSpeedOptimizeEnable">
-        <input type="checkbox" name="lowSpeedOptimizeEnable">
-        <input type="checkbox" name="lowSpeedOptimizeEnable">
-        <input type="checkbox" name="lowSpeedOptimizeEnable">
-        <input type="checkbox" name="lowSpeedOptimizeEnable">
-        <input type="checkbox" name="lowSpeedOptimizeEnable">
-        <input type="checkbox" name="lowSpeedOptimizeEnable">
-        <span class="unit"></span>
-    </div>
-</li>
-<li>
-    <div class="input-label">
-        <label class="hint">Low speed optimization threshold</label>
+        <label class="hint">lowSpeedOptimize</label>
         <p class="tooltip">The speed threshold below which the low speed compensation works.</p>
     </div>
     <div class="input-items">

@@ -147,11 +147,13 @@ void loadConfig() {
     JsonArray speedProfile_dec = speedProfile["dec"];
     JsonArray speedProfile_maxSpeed = speedProfile["maxSpeed"];
     JsonArray speedProfile_fullStepSpeed = speedProfile["fullStepSpeed"];
+    JsonArray speedProfile_minSpeed = speedProfile["minSpeed"];
     for (i = 0; i < NUM_OF_MOTOR; i++) {
         acc[i] = speedProfile_acc[i] | 1000.;
         dec[i] = speedProfile_dec[i] | 1000.;
         maxSpeed[i] = speedProfile_maxSpeed[i] | 650.;
         fullStepSpeed[i] = speedProfile_fullStepSpeed[i] | 15610.;
+        minSpeed[i] = speedProfile_minSpeed[i] | 0.;
     }
 
     // Voltage mode
@@ -165,6 +167,7 @@ void loadConfig() {
     JsonArray voltageMode_FN_SLP_ACC = voltageMode["FN_SLP_ACC"];
     JsonArray voltageMode_FN_SLP_DEC = voltageMode["FN_SLP_DEC"];
     JsonArray voltageMode_STALL_TH = voltageMode["STALL_TH"];
+    JsonArray voltageMode_lowSpeedOptimizeEnable = voltageMode["lowSpeedOptimizeEnable"];
     JsonArray voltageMode_lowSpeedOptimize = voltageMode["lowSpeedOptimize"];
     for (i = 0; i < NUM_OF_MOTOR; i++) {
         kvalHold[i] = voltageMode_KVAL_HOLD[i] | 0;
@@ -177,7 +180,8 @@ void loadConfig() {
         decFinalSlope[i] = voltageMode_FN_SLP_DEC[i] | 0x29;
         // stallThreshold[i] = voltageMode_STALL_TH[i] | 0x1F;
         stallThreshold[i] = voltageMode_STALL_TH[i] | 0x7F;
-        lowSpeedOptimize[i] = voltageMode_lowSpeedOptimize[i] | 20.;
+        lowSpeedOptimizeEnable[i] = voltageMode_lowSpeedOptimizeEnable[i] | false;
+        lowSpeedOptimizeThreshold[i] = voltageMode_lowSpeedOptimize[i] | 20.;
     }
 
     // Current mode

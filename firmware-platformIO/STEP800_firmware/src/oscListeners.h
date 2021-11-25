@@ -72,6 +72,7 @@ void getOverCurrentThreshold(OSCMessage& msg, int addrOffset);
 void setLowSpeedOptimizeThreshold(OSCMessage& msg, int addrOffset);
 void getLowSpeedOptimizeThreshold(OSCMessage& msg, int addrOffset);
 void getLowSpeedOptimizeThreshold(uint8_t motorId);
+void enableLowSpeedOptimize(OSCMessage& msg, int addrOffset);
 void setBemfParam(OSCMessage& msg, int addrOffset);
 void getBemfParam(OSCMessage& msg, int addrOffset);
 void getBemfParam(uint8_t motorId);
@@ -119,6 +120,8 @@ void getKval(uint8_t motorId);
 // speed_commands_osc_listener
 void setSpeedProfile(OSCMessage& msg, int addrOffset);
 void setMaxSpeed(OSCMessage& msg, int addrOffset);
+void setMinSpeed(OSCMessage& msg, int addrOffset);
+void getMinSpeed(OSCMessage& msg, int addrOffset);
 void setFullstepSpeed(OSCMessage& msg, int addrOffset);
 void getFullstepSpeed(OSCMessage& msg, int addrOffset);
 void setAcc(OSCMessage& msg, int addrOffset);

@@ -56,8 +56,7 @@ window.addEventListener('DOMContentLoaded', function() {
             acc: document.querySelectorAll("input[name='acc']"),
             dec: document.querySelectorAll("input[name='dec']"),
             maxSpeed: document.querySelectorAll("input[name='maxSpeed']"),
-            fullStepSpeed: document.querySelectorAll("input[name='fullStepSpeed']"),
-            minSpeed: document.querySelectorAll("input[name='minSpeed']")
+            fullStepSpeed: document.querySelectorAll("input[name='fullStepSpeed']")
         }, 
         voltageMode: {
             KVAL_HOLD: document.querySelectorAll("input[name='KVAL_HOLD']"),
@@ -69,7 +68,6 @@ window.addEventListener('DOMContentLoaded', function() {
             FN_SLP_ACC: document.querySelectorAll("input[name='FN_SLP_ACC']"),
             FN_SLP_DEC: document.querySelectorAll("input[name='FN_SLP_DEC']"),
             STALL_TH: document.querySelectorAll("input[name='STALL_TH']"),
-            lowSpeedOptimizeEnable: document.querySelectorAll("input[name='lowSpeedOptimizeEnable']"),
             lowSpeedOptimize: document.querySelectorAll("input[name='lowSpeedOptimize']")
         },
         servoMode: {
