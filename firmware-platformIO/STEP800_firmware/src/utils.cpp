@@ -75,8 +75,12 @@ void resetMotorDriver(uint8_t deviceID) {
         stepper[deviceID].resetDev();
         stepper[deviceID].configStepMode(microStepMode[deviceID]);
         stepper[deviceID].setMaxSpeed(maxSpeed[deviceID]);
-        stepper[deviceID].setLoSpdOpt(true);
-        stepper[deviceID].setMinSpeed(lowSpeedOptimize[deviceID]); // Low speed optimization threshold
+        stepper[deviceID].setLoSpdOpt(lowSpeedOptimizeEnable[deviceID]);
+        if (lowSpeedOptimizeEnable[deviceID]) {
+            stepper[deviceID].setMinSpeed(lowSpeedOptimizeThreshold[deviceID]); // Low speed optimization threshold
+        } else {
+            stepper[deviceID].setMinSpeed(minSpeed[deviceID]);
+        }
         stepper[deviceID].setFullSpeed(fullStepSpeed[deviceID]);
         stepper[deviceID].setAcc(acc[deviceID]);
         stepper[deviceID].setDec(dec[deviceID]);

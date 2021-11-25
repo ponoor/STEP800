@@ -33,8 +33,8 @@ const char *firmwareName = "STEP800_PROTO_BLACK";
 #else
 const char *firmwareName = "STEP800_R1";
 #endif
-const uint8_t firmwareVersion[3] = {1,0,0};
-const uint8_t applicableConfigVersion[2] = {1,0};
+const uint8_t firmwareVersion[3] = {1,0,1};
+const uint8_t applicableConfigVersion[2] = {1,1};
 
 // L6470vh
 #ifdef PROTOTYPE_BLACK
@@ -357,7 +357,7 @@ void updateServo(uint32_t currentTimeMicros) {
                 integral[i] += ((error + eZ1[i]) / 2.0f);
                 if (integral[i] > 1500.0f) integral[i] = 1500.0f;
                 else if (integral[i] < -1500.0f) integral[i] = -1500.0f;
-                if (abs(error) > position_tolerance) {
+                if (fabsf(error) > position_tolerance) {
                     double diff = error - eZ1[i];
 
                     spd = error * kP[i] + integral[i] * kI[i] + diff * kD[i];

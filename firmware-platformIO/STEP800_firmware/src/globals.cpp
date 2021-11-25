@@ -119,7 +119,8 @@ uint8_t
     microStepMode[NUM_OF_MOTOR]; // STEP_MODE
 uint16_t slewRate[NUM_OF_MOTOR]; // GATECFG1
 uint8_t slewRateNum[NUM_OF_MOTOR]; // [0]114, [1]220, [2]400, [3]520, [4]790, [5]980.
-float lowSpeedOptimize[NUM_OF_MOTOR];
+bool lowSpeedOptimizeEnable[NUM_OF_MOTOR];
+float lowSpeedOptimizeThreshold[NUM_OF_MOTOR];
 bool electromagnetBrakeEnable[NUM_OF_MOTOR];
 uint16_t brakeTransitionDuration[NUM_OF_MOTOR];
 
@@ -127,6 +128,7 @@ float
     acc[NUM_OF_MOTOR],
     dec[NUM_OF_MOTOR],
     maxSpeed[NUM_OF_MOTOR],
+    minSpeed[NUM_OF_MOTOR],
     fullStepSpeed[NUM_OF_MOTOR];
 
 // Servo mode

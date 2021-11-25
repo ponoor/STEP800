@@ -283,6 +283,7 @@ void printConfigurations() {
 	printAllData(F("dec"), dec);
 	printAllData(F("maxSpeed"), maxSpeed);
 	printAllData(F("fullStepSpeed"), fullStepSpeed);
+	printAllData("minSpeed", minSpeed);
 
 	printHeader(F("Voltage mode"));
 	printAllData(F("kvalHold"), kvalHold);
@@ -294,7 +295,8 @@ void printConfigurations() {
 	printAllData(F("accFinalSlope"), accFinalSlope);
 	printAllData(F("decFinalSlope"), decFinalSlope);
 	printAllData(F("stallThreshold"), stallThreshold);
-	printAllData(F("lowSpeedOptimize"), lowSpeedOptimize);
+	showAllBools("lowSpeedOptimizeEnable", lowSpeedOptimizeEnable);
+	printAllData("lowSpeedOptimizeThreshold", lowSpeedOptimizeThreshold);
 
 	printHeader(F("Servo mode"));
 	printAllData(F("kP"), kP);

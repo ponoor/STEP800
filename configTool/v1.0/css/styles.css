@@ -1,0 +1,77 @@
+@charset 'utf-8';
+
+/* base
+--------------------------------------------------- */
+* { margin: 0; padding: 0; }
+html { box-sizing: border-box; }
+img { max-width: 100%; height: auto; }
+h1, h2, h3, h4, h5, h6 { font-size: 100%; font-weight: normal; }
+ul, ol { list-style: none; }
+i, em { font-style: normal; }
+@media screen and (max-width:59.99em) {
+  html { font-size: 56.25%; }
+}
+@media screen and (min-width:60em) {
+  html { font-size: 62.5%; }
+}
+body { font-family: BlinkMacSystemFont, -apple-system, "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif; font-size: 1.6rem; line-height: 1; color: #363636; }
+@media (-webkit-min-device-pixel-ratio:2) {
+  body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+}
+::-moz-selection { background: #363636; color: #fff; text-shadow: none; }
+::selection { background: #363636; color: #fff; text-shadow: none; }
+
+/* content
+--------------------------------------------------- */
+.container { margin: 8rem auto; width: 92.19%; max-width: 96rem; min-width: 88rem; }
+.line-ponoor { position: relative; width: 100%; height: 0.4rem; border: 0; background-color: #8d3f2b; background-image: linear-gradient(117deg, #8d3f2b 0% 55%, #363636 55% 70%, #e6e6e6 70% 82%, #ff6720 82% 95%, #fbde40 95% 100%); }
+h1 { display: -webkit-flex; display: flex; -webkit-align-items: flex-end; align-items: flex-end; margin-bottom: 6.4rem; font-weight: 600; font-size: 4.8rem; }
+h1 > span { display: inline-block; margin-bottom: 0.5rem; margin-left: 1.6rem; padding: 0.4rem 1.2rem; background-color: #eee; border-radius: 2.4rem; font-size: 1.6rem; }
+.heading-wrap { margin-top: 6.4rem; margin-bottom: 4rem; display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; }
+.heading-wrap > h2 { margin-right: 3.2rem; font-weight: 600; font-size: 3.2rem; }
+.file-input input[type="file"] { display: none; }
+.file-input label { display: inline-block; position: relative; cursor: pointer; padding: 1rem 2rem; border-radius: 0.2rem; margin-right: 0.8rem; background-color: #ff6720; color: #fff; font-weight: 600; font-size: 1.4rem; transition: opacity 0.2s ease-out; }
+.file-input label:after { content: "No file selected"; color: #808080; font-size: 1.4rem; height: 2rem; line-height: 2rem; position: absolute; right: -12.4rem; top: calc(50% - 1rem); }
+.file-input label:hover { opacity: 0.8; }
+.file-input label.changed:after { content: ""; }
+.file-input .filename { font-size: 1.4rem; }
+.file-export { margin-top: 8rem; width: 100%; }
+.file-export > input[type="submit"] { width: 28rem; height: 100%; border: 0; outline: none; padding: 2rem 0; background-color: #ff6720; border-radius: 0.2rem; font-weight: 600; font-size: 2rem; color: #fff; text-align: center; cursor: pointer; transition: opacity 0.2s ease-out; }
+.file-export > input[type="submit"]:hover { opacity: 0.8; }
+.input-setting { padding: 0.8rem 1.2rem; border: 1px solid #eee; border-radius: 0.2rem; }
+.input-setting > .label { display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; font-weight: 600; }
+.input-setting > .label input { margin-left: 0.8rem; }
+.input-list { border-bottom: 1px solid #eee; }
+.input-list > li { display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; }
+.input-list > li > .input-label { width: calc(100% - 66rem); padding-right: 0.5rem; }
+.input-list > li > .input-items { width: 66rem; }
+.input-list > li.heading { padding-bottom: 0.8rem; border-bottom: 1px solid #eee; font-weight: 600; font-size: 1.4rem; }
+.input-list > li:not(.heading) { padding: 1.2rem 0; border-top: 1px solid #eee; }
+.input-label { position: relative; font-weight: 600; }
+.input-label > .hint { border-bottom: 1px dotted rgba(54, 54, 54, 0.6); cursor: pointer; position: relative; }
+.input-label > .hint:hover + .tooltip { display: block; }
+.input-label > .tooltip { display: none; position: absolute; left: 0.8rem; top: 3.2rem; z-index: 9999; max-width: 80%; padding: 1.2rem 1.6rem; color: #fff; background-color: #555; border-radius: 0.2rem; font-size: 1.4rem; line-height: 1.5; }
+.input-label > .tooltip::after { width: 100%; content: ""; display: block; position: absolute; left: 0.8rem; top: -8px; border-top: 8px solid transparent; border-left: 8px solid #555; }
+.input-items { display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; }
+.input-items > p, .input-items > select, .input-items > input[type="text"], .input-items > input[type="number"] { margin-right: 0.2rem; }
+.input-items > p, .input-items > select { width: 12rem; }
+.input-items > input[type="text"] { width: 22.8rem; }
+.input-items > input[type="number"] { width: 11rem; }
+.input-items > input[type="text"], .input-items > input[type="number"] { outline: none; padding: 0.5rem 0.2rem 0.5rem 0.6rem; background-color: #fff; border: 0.1rem solid #d3d3d3; border-radius: 0.2rem; font-size: 1.4rem; }
+.input-items > input[type="text"]:focus, .input-items > input[type="number"]:focus { box-shadow: inset 0 0 2px 0 #ff6720; }
+.input-items > input[type="checkbox"] { width: 1.6rem; margin-right: 6.6rem; }
+.input-items > input[disabled="disabled"], .input-items > select[disabled="disabled"], .input-items > p[disabled="disabled"] { display: none; }
+.input-items > input[readonly="readonly"] { outline: 0; background-color: #eee; cursor: not-allowed; }
+.input-items > input[readonly="readonly"]:focus { box-shadow: none; }
+.input-items > .btn { display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; margin-left: 1.2rem; font-size: 1.4rem; line-height: 1.6rem; }
+.input-items > .btn > input { margin-right: 0.6rem; }
+.input-items.-sm > input[type="text"], .input-items.-sm > input[type="number"] { width: 4.8rem; }
+.input-list.-motor .input-items > .unit { display: block; font-size: 0.8em; }
+.input-list.-motor .input-items > p, .input-list.-motor .input-items > select, .input-list.-motor .input-items > input[type="text"], .input-list.-motor .input-items > input[type="number"] { margin-right: 0.4rem; }
+.input-list.-motor .input-items > p, .input-list.-motor .input-items > select { width: 7.2rem; }
+.input-list.-motor .input-items > input[type="number"] { width: 6.2rem; }
+.input-list.-motor .input-items > input[type="checkbox"] { width: 1.6rem; margin-right: 6rem; }
+
+/* IE */
+_:-ms-lang(x), .file-input > label { display: none; }
+_:-ms-lang(x), .file-input > input[type="file"] { width: auto; }
