@@ -36,7 +36,6 @@ void OSCMsgReceive() {
             bMsgRouted |= msgIN.route("/getMark", getMark);
             bMsgRouted |= msgIN.route("/setPosition", setPosition);
             bMsgRouted |= msgIN.route("/resetPos", resetPos);
-            bMsgRouted |= msgIN.route("/resetDev", resetDev);
             bMsgRouted |= msgIN.route("/softStop", softStop);
             bMsgRouted |= msgIN.route("/hardStop", hardStop);
             bMsgRouted |= msgIN.route("/softHiZ", softHiZ);
@@ -152,6 +151,7 @@ void OSCMsgReceive() {
             // bMsgRouted |= msgIN.route("/getProhibitMotionOnLimitSw", getProhibitMotionOnLimitSw);
             bMsgRouted |= msgIN.route("/getElPos", getElPos);
             bMsgRouted |= msgIN.route("/setElPos", setElPos);
+            bMsgRouted |= msgIN.route("/resetDevice", resetDevice);
             turnOnRXL();
             if ((!bMsgRouted) && reportErrors) {
                 sendOneDatum("/error/osc", "MessageNotMatch");
@@ -262,20 +262,25 @@ void resetMotorDriver(OSCMessage& msg, int addrOffset) {
 //     }
 // }
 
-// simply send reset command to the driverchip via SPI
-void resetDev(OSCMessage& msg, int addrOffset) {
-    uint8_t motorID = getInt(msg, 0);
-    if(isCorrectMotorId(motorID)) {
-        motorID -= MOTOR_ID_FIRST;
-        stepper[motorID].hardHiZ();
-        stepper[motorID].resetDev();
-    }
-    else if (motorID == MOTOR_ID_ALL) {
-        for (uint8_t i = 0; i < NUM_OF_MOTOR; i++) {
-            stepper[i].hardHiZ();
-            stepper[i].resetDev();
-        }
-    }
+// // simply send reset command to the driverchip via SPI
+// void resetDev(OSCMessage& msg, int addrOffset) {
+//     uint8_t motorID = getInt(msg, 0);
+//     if(isCorrectMotorId(motorID)) {
+//         motorID -= MOTOR_ID_FIRST;
+//         stepper[motorID].hardHiZ();
+//         stepper[motorID].resetDev();
+//     }
+//     else if (motorID == MOTOR_ID_ALL) {
+//         for (uint8_t i = 0; i < NUM_OF_MOTOR; i++) {
+//             stepper[i].hardHiZ();
+//             stepper[i].resetDev();
+//         }
+//     }
+// }
+
+void resetDevice(OSCMessage& msg, int addrOffset) {
+    void (*resetFunc)(void) = 0;
+    resetFunc();
 }
 
 void reportError(OSCMessage& msg, int addrOffset) {

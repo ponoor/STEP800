@@ -30,7 +30,7 @@ void getConfigRegister(OSCMessage& msg, int addrOffset);
 void resetMotorDriver(OSCMessage& msg, int addrOffset);
 void reportError(OSCMessage& msg, int addrOffset);
 //void getAdcVal(OSCMessage& msg, int addrOffset);
-void resetDev(OSCMessage& msg, int addrOffset);
+void resetDevice(OSCMessage& msg, int addrOffset);
 void enableBusyReport(OSCMessage& msg, int addrOffset);
 void enableHizReport(OSCMessage& msg, int addrOffset);
 void enableHomeSwReport(OSCMessage& msg, int addrOffset);
