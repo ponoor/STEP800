@@ -16,7 +16,7 @@
 // Board / Pin definitions
 // =============================================================================
 // #define PROTOTYPE_BLACK // First Black PCB prototype
-//#define PROTOTYPE_R3 // Uncomment this line for the prototype r4 pcb.
+// #define PROTOTYPE_R3 // Uncomment this line for the prototype r4 pcb.
 // r3: revision anno lab 2020
 // r4: with brake connector 2021 (production ver)
 
@@ -59,7 +59,7 @@
     #define LATCH3  A1
     #define SCK3    A2
     // W5500
-    #define W5500_RESET_PIN 8
+    #define W5500_RESET_PIN 8u
 #else // ----------------- Product version -----------------
     #define HAS_SD
     #define HAS_BRAKE
@@ -154,6 +154,7 @@ extern bool
 #define BOOT_MSG_WAIT_TIME  1000    //[ms], The waiting duration for sending a boot message after Ethernet has been linked
 
 // Motor settings.
+// #define TVAL_LIMIT_VAL  64 // approx. 5A
 
 // Brake
 #ifdef HAS_BRAKE
@@ -225,6 +226,8 @@ extern bool
     reportThermalStatus[NUM_OF_MOTOR],
     reportOCD[NUM_OF_MOTOR],
     reportStall[NUM_OF_MOTOR],
+    reportPosition[NUM_OF_MOTOR],
+    reportPositionList,
     //limitSwState[NUM_OF_MOTOR],
     //reportLimitSwStatus[NUM_OF_MOTOR],
     //limitSwMode[NUM_OF_MOTOR],
@@ -234,7 +237,9 @@ extern bool
     bHomingAtStartup[NUM_OF_MOTOR];
 extern uint16_t
     goUntilTimeout[NUM_OF_MOTOR],
-    releaseSwTimeout[NUM_OF_MOTOR];
+    releaseSwTimeout[NUM_OF_MOTOR],
+    reportPositionInterval[NUM_OF_MOTOR],
+    reportPositionListInterval;
 extern uint8_t kvalHold[NUM_OF_MOTOR], kvalRun[NUM_OF_MOTOR], kvalAcc[NUM_OF_MOTOR], kvalDec[NUM_OF_MOTOR];
 //extern uint8_t tvalHold[NUM_OF_MOTOR], tvalRun[NUM_OF_MOTOR], tvalAcc[NUM_OF_MOTOR], tvalDec[NUM_OF_MOTOR];
 //extern bool isCurrentMode[NUM_OF_MOTOR];

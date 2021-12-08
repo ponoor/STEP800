@@ -19,6 +19,8 @@ void OSCMsgReceive() {
             bMsgRouted |= msgIN.route("/setTargetPosition", setTargetPosition);
             bMsgRouted |= msgIN.route("/setTargetPositionList", setTargetPositionList);
             bMsgRouted |= msgIN.route("/getPosition", getPosition);
+            bMsgRouted |= msgIN.route("/getPositionList", getPositionList);
+
             bMsgRouted |= msgIN.route("/getSpeed", getSpeed);
             bMsgRouted |= msgIN.route("/run", run);
             bMsgRouted |= msgIN.route("/runRaw", runRaw);
@@ -36,7 +38,6 @@ void OSCMsgReceive() {
             bMsgRouted |= msgIN.route("/getMark", getMark);
             bMsgRouted |= msgIN.route("/setPosition", setPosition);
             bMsgRouted |= msgIN.route("/resetPos", resetPos);
-            bMsgRouted |= msgIN.route("/resetDev", resetDev);
             bMsgRouted |= msgIN.route("/softStop", softStop);
             bMsgRouted |= msgIN.route("/hardStop", hardStop);
             bMsgRouted |= msgIN.route("/softHiZ", softHiZ);
@@ -103,6 +104,8 @@ void OSCMsgReceive() {
             bMsgRouted |= msgIN.route("/enableThermalStatusReport", enableThermalStatusReport);
             bMsgRouted |= msgIN.route("/enableOverCurrentReport", enableOverCurrentReport);
             bMsgRouted |= msgIN.route("/enableStallReport", enableStallReport);
+            bMsgRouted |= msgIN.route("/setPositionReportInterval", setPositionReportInterval);
+            bMsgRouted |= msgIN.route("/setPositionListReportInterval", setPositionListReportInterval);
             // bMsgRouted |= msgIN.route("/getLimitSw", getLimitSw);
             // bMsgRouted |= msgIN.route("/getLimitSwMode", getLimitSwMode);
             // bMsgRouted |= msgIN.route("/setLimitSwMode", setLimitSwMode);
@@ -152,6 +155,7 @@ void OSCMsgReceive() {
             // bMsgRouted |= msgIN.route("/getProhibitMotionOnLimitSw", getProhibitMotionOnLimitSw);
             bMsgRouted |= msgIN.route("/getElPos", getElPos);
             bMsgRouted |= msgIN.route("/setElPos", setElPos);
+            bMsgRouted |= msgIN.route("/resetDevice", resetDevice);
             turnOnRXL();
             if ((!bMsgRouted) && reportErrors) {
                 sendOneDatum("/error/osc", "MessageNotMatch");
@@ -262,20 +266,25 @@ void resetMotorDriver(OSCMessage& msg, int addrOffset) {
 //     }
 // }
 
-// simply send reset command to the driverchip via SPI
-void resetDev(OSCMessage& msg, int addrOffset) {
-    uint8_t motorID = getInt(msg, 0);
-    if(isCorrectMotorId(motorID)) {
-        motorID -= MOTOR_ID_FIRST;
-        stepper[motorID].hardHiZ();
-        stepper[motorID].resetDev();
-    }
-    else if (motorID == MOTOR_ID_ALL) {
-        for (uint8_t i = 0; i < NUM_OF_MOTOR; i++) {
-            stepper[i].hardHiZ();
-            stepper[i].resetDev();
-        }
-    }
+// // simply send reset command to the driverchip via SPI
+// void resetDev(OSCMessage& msg, int addrOffset) {
+//     uint8_t motorID = getInt(msg, 0);
+//     if(isCorrectMotorId(motorID)) {
+//         motorID -= MOTOR_ID_FIRST;
+//         stepper[motorID].hardHiZ();
+//         stepper[motorID].resetDev();
+//     }
+//     else if (motorID == MOTOR_ID_ALL) {
+//         for (uint8_t i = 0; i < NUM_OF_MOTOR; i++) {
+//             stepper[i].hardHiZ();
+//             stepper[i].resetDev();
+//         }
+//     }
+// }
+
+void resetDevice(OSCMessage& msg, int addrOffset) {
+    void (*resetFunc)(void) = 0;
+    resetFunc();
 }
 
 void reportError(OSCMessage& msg, int addrOffset) {
@@ -412,6 +421,42 @@ void enableStallReport(OSCMessage& msg, int addrOffset) {
     else if (motorID == MOTOR_ID_ALL) {
         for (uint8_t i = 0; i < NUM_OF_MOTOR; i++) {
             reportStall[i] = bEnable;
+        }
+    }
+}
+
+void setPositionReportInterval(OSCMessage& msg, int addrOffset) {
+    uint8_t motorID = getInt(msg, 0);
+    int16_t interval = getInt(msg,1);
+    if ( interval < 0) interval = 0;
+    bool bEnable = interval>0;
+    if(isCorrectMotorId(motorID)) {
+        reportPosition[motorID - MOTOR_ID_FIRST] = bEnable;
+        reportPositionInterval[motorID - MOTOR_ID_FIRST] = interval;
+        if (bEnable)
+            reportPositionList = false;
+    }
+    else if (motorID == MOTOR_ID_ALL) {
+        for (uint8_t i = 0; i < NUM_OF_MOTOR; i++) {
+            reportPosition[i] = bEnable;
+            reportPositionInterval[i] = interval;
+        }
+        if (bEnable) {
+            reportPositionList = false;
+            reportPositionListInterval = 0;
+        }
+    }
+}
+void setPositionListReportInterval(OSCMessage& msg, int addrOffset) {
+    int16_t interval = getInt(msg,0);
+    if ( interval < 0) interval = 0;
+    bool bEnable = interval>0;
+    reportPositionList = bEnable;
+    reportPositionListInterval = interval;
+    if (bEnable) {
+        for (uint8_t i = 0; i < NUM_OF_MOTOR; i++) {
+            reportPosition[i] = false;
+            reportPositionInterval[i] = 0;
         }
     }
 }
@@ -1719,6 +1764,18 @@ void getPosition(OSCMessage& msg, int addrOffset) {
         }
     }
 }
+
+void getPositionList() {
+    int32_t pos[NUM_OF_MOTOR];
+    for (uint8_t i=0; i<NUM_OF_MOTOR; i++) {
+        pos[i] = stepper[i].getPos();
+    }
+    sendAllData("/positionList", pos);
+}
+void getPositionList(OSCMessage& msg, int addrOffset) {
+    getPositionList();
+}
+
 void getMark(OSCMessage& msg, int addrOffset) {
     uint8_t motorID = getInt(msg, 0);
     if(isCorrectMotorId(motorID)) {
@@ -2319,7 +2376,11 @@ void getServoParam(OSCMessage& msg, int addrOffset) {
 
 void setElPos(OSCMessage& msg, int addrOffset) {
     uint8_t motorID = getInt(msg, 0);
-    uint16_t newElPos = getInt(msg, 1);
+    uint8_t newFullStep = getInt(msg, 1);
+    uint8_t newMicroStep = getInt(msg, 2);
+    newFullStep = constrain(newFullStep,0,3);
+    newMicroStep = constrain(newMicroStep,0,127);
+    uint16_t newElPos = (newFullStep<<7) | newMicroStep;
     if(isCorrectMotorId(motorID)) {
         stepper[motorID - MOTOR_ID_FIRST].setElPos(newElPos);
     }

@@ -33,8 +33,8 @@ const char *firmwareName = "STEP800_PROTO_BLACK";
 #else
 const char *firmwareName = "STEP800_R1";
 #endif
-const uint8_t firmwareVersion[3] = {1,0,1};
-const uint8_t applicableConfigVersion[2] = {1,1};
+const uint8_t firmwareVersion[3] = {1,0,2};
+const uint8_t applicableConfigVersion[2] = {1,2};
 
 // L6470vh
 #ifdef PROTOTYPE_BLACK
@@ -344,6 +344,26 @@ void checkHomingTimeout(uint32_t _currentTimeMillis) {
     }
 }
 
+void updatePositionReport(uint32_t _currentTimeMillis) {
+    static uint32_t lastPollTime[NUM_OF_MOTOR] = { 0,0,0,0 };
+    for (uint8_t i=0; i<NUM_OF_MOTOR; i++) {
+        if (reportPosition[i]) {
+            if ((uint32_t)(_currentTimeMillis - lastPollTime[i]) >= reportPositionInterval[i]) {
+                sendTwoData("/position", i + MOTOR_ID_FIRST, stepper[i].getPos());
+                lastPollTime[i] = _currentTimeMillis;
+            }
+        }
+    }
+}
+
+void updatePositionReportList(uint32_t _currentTimeMillis) {
+    static uint32_t lastPollTime = 0;
+    if ((uint32_t)(_currentTimeMillis - lastPollTime) >= reportPositionListInterval) {
+        getPositionList();
+        lastPollTime = _currentTimeMillis;
+    }
+}
+
 void updateServo(uint32_t currentTimeMicros) {
     static uint32_t lastServoUpdateTime = 0;
     static float eZ1[NUM_OF_MOTOR] = { 0,0,0,0 },
@@ -388,6 +408,9 @@ void loop() {
         checkBrake(currentTimeMillis);
 #endif
         checkHomingTimeout(currentTimeMillis);
+        updatePositionReport(currentTimeMillis);
+        if ( reportPositionList) 
+            updatePositionReportList(currentTimeMillis);
         checkStatus();
         checkLED(currentTimeMillis);
         uint8_t t = getMyId();

@@ -246,3 +246,17 @@ void sendThreeInt(String address, int32_t data1, int32_t data2, int32_t data3) {
     newMes.empty();
     turnOnTXL();
 }
+
+void sendAllData(String address, int32_t *data) {
+    if (!isDestIpSet) { return; }
+    OSCMessage newMes(address.c_str());
+    for (uint8_t i = 0; i < NUM_OF_MOTOR; i++)
+    {
+        newMes.add(data[i]);
+    }
+    Udp.beginPacket(destIp, outPort);
+    newMes.send(Udp);
+    Udp.endPacket();
+    newMes.empty();
+    turnOnTXL();
+}
