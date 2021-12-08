@@ -57,4 +57,5 @@ void sendTwoData(String address, T data1, U data2) {
     turnOnTXL();
 }
 
+void sendAllData(String address, int32_t *data);
 #endif

@@ -9,7 +9,7 @@ void loadConfig() {
     sdInitializeSucceeded = false;
     configFileOpenSucceeded = false;
     configFileParseSucceeded = false;
-    DynamicJsonDocument doc(7200);
+    DynamicJsonDocument doc(8192);
     #else
     if (digitalRead(SD_DETECT_PIN) == LOW)
     {
@@ -20,7 +20,7 @@ void loadConfig() {
     // Allocate a temporary JsonDocument
     // Don't forget to change the capacity to match your requirements.
     // Use arduinojson.org/v6/assistant to compute the capacity.
-    DynamicJsonDocument doc(7200); // 6144
+    DynamicJsonDocument doc(8192);
     DeserializationError error = deserializeJson(doc, file);
     if (error) {
         p("Failed to read file: %s\nUsing default configuration.\n", error.f_str());
@@ -86,6 +86,7 @@ void loadConfig() {
     JsonArray alarmAndReport_reportStall = alarmAndReport["reportStall"];
     // JsonArray alarmAndReport_reportLimitSwStatus = alarmAndReport["reportLimitSwStatus"];
     JsonArray alarmAndReport_OCThreshold = alarmAndReport["OCThreshold"];
+    JsonArray alarmAndReport_reportPositionInterval = alarmAndReport["reportPositionInterval"];
     for (i = 0; i < NUM_OF_MOTOR; i++)
     {
         reportBUSY[i] = (int)alarmAndReport_reportBUSY[i] | false;
@@ -99,9 +100,18 @@ void loadConfig() {
         reportThermalStatus[i] = (int)alarmAndReport_reportThermalStatus[i] | true;
         reportOCD[i] = (int)alarmAndReport_reportOCD[i] | true;
         reportStall[i] = (int)alarmAndReport_reportStall[i] | false;
+        reportPositionInterval[i] = (int)alarmAndReport_reportPositionInterval[i] | 0;
+        reportPosition[i] = reportPositionInterval[i] > 0;
         overCurrentThreshold[i] = alarmAndReport_OCThreshold[i] | 7; // PowerSTEP01:Max31, L6470:Max15
     }
-
+    reportPositionListInterval = alarmAndReport["reportPositionListInterval"] | 0; // 0
+    reportPositionList = reportPositionListInterval > 0;
+    if (reportPositionList) {
+        for (uint8_t i = 0; i < NUM_OF_MOTOR; i++) {
+            reportPosition[i] = false;
+            reportPositionInterval[i] = 0;
+        }
+    }
     // Driver settings
     JsonObject driverSettings = doc["driverSettings"];
     JsonArray driverSettings_homingAtStartup = driverSettings["homingAtStartup"];
