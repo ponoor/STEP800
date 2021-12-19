@@ -17,6 +17,9 @@ Stepper driver chips are STMicroelectronics's [L6470](https://www.st.com/en/moto
 
 Friend of STEP800 : [STEP400](https://github.com/ponoor/STEP400)
 
+## Store
+https://ponoor.com/en/shop/
+
 ## Documentation
 https://ponoor.com/en/docs/step-series/
 
