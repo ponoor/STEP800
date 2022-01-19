@@ -260,7 +260,8 @@ void checkStatus() {
             if (reportUVLO[i]) sendTwoData("/uvlo", i + MOTOR_ID_FIRST, uvloStatus[i]);
         }
         // TH_STATUS
-        t = (status & (STATUS_TH_WRN|STATUS_TH_SD)) >> 9;
+        t = (status & (STATUS_TH_WRN|STATUS_TH_SD)) >> 10;
+        t = (~t)&0x0003U;
         if (thermalStatus[i] != t) {
             thermalStatus[i] = t;
             if (reportThermalStatus[i]) sendTwoData("/thermalStatus", i + MOTOR_ID_FIRST, thermalStatus[i]);
