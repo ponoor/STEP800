@@ -33,10 +33,10 @@ const char *firmwareName = "STEP800_PROTO_BLACK";
 #else
 const char *firmwareName = "STEP800_R1";
 #endif
-const uint8_t firmwareVersion[3] = {1,0,2};
+const uint8_t firmwareVersion[3] = {1,0,3};
 const uint8_t applicableConfigVersion[2] = {1,2};
 
-// L6470vh
+// L6470
 #ifdef PROTOTYPE_BLACK
 SPIClass L6470SPI(&sercom1, L6470_MISO, L6470_SCK, L6470_MOSI, SPI_PAD_0_SCK_1, SERCOM_RX_PAD_3);// MISO/SCK/MOSI pins
 #else
@@ -260,7 +260,8 @@ void checkStatus() {
             if (reportUVLO[i]) sendTwoData("/uvlo", i + MOTOR_ID_FIRST, uvloStatus[i]);
         }
         // TH_STATUS
-        t = (status & (STATUS_TH_WRN|STATUS_TH_SD)) >> 9;
+        t = (status & (STATUS_TH_WRN|STATUS_TH_SD)) >> 10;
+        t = (~t)&0x0003U;
         if (thermalStatus[i] != t) {
             thermalStatus[i] = t;
             if (reportThermalStatus[i]) sendTwoData("/thermalStatus", i + MOTOR_ID_FIRST, thermalStatus[i]);

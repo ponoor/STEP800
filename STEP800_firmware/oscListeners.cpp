@@ -489,7 +489,7 @@ void getHomeSw(uint8_t motorId) {
 //     }
 // }
 // void getLimitSw(uint8_t motorId) {
-//     sendThreeInt("limitSw", motorId + MOTOR_ID_FIRST, limitSwState[motorId], dir[motorId]);
+//     sendThreeInt("/limitSw", motorId + MOTOR_ID_FIRST, limitSwState[motorId], dir[motorId]);
 // }
 
 void getBusy(OSCMessage& msg, int addrOffset) {
@@ -812,7 +812,7 @@ void getLowSpeedOptimizeThreshold(uint8_t motorId) {
     bool optimizationEnabled = (stepper[motorId].getParam(MIN_SPEED) & (1 << 12)) > 0;
     OSCMessage newMes("/lowSpeedOptimizeThreshold");
     newMes.add((int32_t)motorId + MOTOR_ID_FIRST);
-    newMes.add(lowSpeedOptimizeEnable[motorId]);
+    newMes.add(lowSpeedOptimizeThreshold[motorId]);
     newMes.add(optimizationEnabled);
     Udp.beginPacket(destIp, outPort);
     newMes.send(Udp);
