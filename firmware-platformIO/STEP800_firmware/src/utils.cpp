@@ -225,8 +225,9 @@ void clearHomingStatus(uint8_t motorId)
     }
 }
 
-bool checkMotionStartConditions(uint8_t motorId, bool dir) {
-    clearHomingStatus(motorId);
+bool checkMotionStartConditions(uint8_t motorId, bool dir, bool checkHomingStatus) {
+    if (checkHomingStatus)
+        clearHomingStatus(motorId);
     if (!isBrakeDisEngaged(motorId)) {
         return false;
     }

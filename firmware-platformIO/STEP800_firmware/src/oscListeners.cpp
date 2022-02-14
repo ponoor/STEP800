@@ -1835,13 +1835,13 @@ void move(OSCMessage& msg, int addrOffset) {
     steps = abs(steps);
     if(isCorrectMotorId(motorID)) {
         motorID -= MOTOR_ID_FIRST;
-        if (checkMotionStartConditions(motorID, dir)) {
+        if (checkMotionStartConditions(motorID, dir, false)) {
             stepper[motorID].move(dir, steps);
         }
     }
     else if (motorID == MOTOR_ID_ALL) {
         for (uint8_t i = 0; i < NUM_OF_MOTOR; i++) {
-            if (checkMotionStartConditions(i, dir)) {
+            if (checkMotionStartConditions(i, dir, false)) {
                 stepper[i].move(dir, steps);
             }
         }
@@ -1854,14 +1854,14 @@ void goTo(OSCMessage& msg, int addrOffset) {
     if(isCorrectMotorId(motorID)) {
         motorID -= MOTOR_ID_FIRST;
         dir = checkGoToDirection(motorID, pos);
-        if (checkMotionStartConditions(motorID, dir)) {
+        if (checkMotionStartConditions(motorID, dir, false)) {
             stepper[motorID].goTo(pos);
         }
     }
     else if (motorID == MOTOR_ID_ALL) {
         for (uint8_t i = 0; i < NUM_OF_MOTOR; i++) {
             dir = checkGoToDirection(i, pos);
-            if (checkMotionStartConditions(i, dir)) {
+            if (checkMotionStartConditions(i, dir, false)) {
                 stepper[i].goTo(pos);
             }
         }
@@ -1873,13 +1873,13 @@ void goToDir(OSCMessage& msg, int addrOffset) {
     int32_t pos = getInt(msg, 2);
     if(isCorrectMotorId(motorID)) {
         motorID -= MOTOR_ID_FIRST;
-        if (checkMotionStartConditions(motorID, dir)) {
+        if (checkMotionStartConditions(motorID, dir, false)) {
             stepper[motorID].goToDir(dir, pos);
         }
     }
     else if (motorID == MOTOR_ID_ALL) {
         for (uint8_t i = 0; i < NUM_OF_MOTOR; i++) {
-            if (checkMotionStartConditions(i, dir) )
+            if (checkMotionStartConditions(i, dir, false) )
                 stepper[i].goToDir(dir, pos);   
         }
     }
@@ -2002,14 +2002,14 @@ void goHome(OSCMessage& msg, int addrOffset) {
     if(isCorrectMotorId(motorID)) {
         motorID -= MOTOR_ID_FIRST;
         dir = checkGoToDirection(motorID, 0);
-        if (checkMotionStartConditions(motorID, dir)) {
+        if (checkMotionStartConditions(motorID, dir, false)) {
             stepper[motorID].goHome();
         }   
     }
     else if (motorID == MOTOR_ID_ALL) {
         for (uint8_t i = 0; i < NUM_OF_MOTOR; i++) {
             dir = checkGoToDirection(i, 0);
-            if (checkMotionStartConditions(i, dir)) {
+            if (checkMotionStartConditions(i, dir, false)) {
                 stepper[i].goHome();
             }
         }
@@ -2021,14 +2021,14 @@ void goMark(OSCMessage& msg, int addrOffset) {
     if(isCorrectMotorId(motorID)) {
         motorID -= MOTOR_ID_FIRST;
         dir = checkGoToDirection(motorID, stepper[motorID].getMark());
-        if (checkMotionStartConditions(motorID, dir)) {
+        if (checkMotionStartConditions(motorID, dir, false)) {
             stepper[motorID].goMark();
         }
     }
     else if (motorID == MOTOR_ID_ALL) {
         for (uint8_t i = 0; i < NUM_OF_MOTOR; i++) {
             dir = checkGoToDirection(i, stepper[i].getMark());
-            if (checkMotionStartConditions(i, dir)) {
+            if (checkMotionStartConditions(i, dir, false)) {
                 stepper[i].goMark();
             }
         }

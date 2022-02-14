@@ -33,7 +33,7 @@ const char *firmwareName = "STEP800_PROTO_BLACK";
 #else
 const char *firmwareName = "STEP800_R1";
 #endif
-const uint8_t firmwareVersion[3] = {1,0,3};
+const uint8_t firmwareVersion[3] = {1,0,4};
 const uint8_t applicableConfigVersion[2] = {1,2};
 
 // L6470
