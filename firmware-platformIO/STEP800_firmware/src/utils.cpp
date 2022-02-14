@@ -213,7 +213,21 @@ bool isBrakeDisEngaged(uint8_t motorId) {
     return !state;
 }
 
-bool checkMotionStartConditions(uint8_t motorId, bool dir) {
+// When the stop commands are sent during a homing process, 
+// clear the homing status as HOMING_UNDEFINED.
+void clearHomingStatus(uint8_t motorId)
+{
+    if (bHoming[motorId])
+    {
+        homingStatus[motorId] = HOMING_UNDEFINED;
+        bHoming[motorId] = false;
+        sendTwoData("/homingStatus", motorId + MOTOR_ID_FIRST, homingStatus[motorId]);
+    }
+}
+
+bool checkMotionStartConditions(uint8_t motorId, bool dir, bool checkHomingStatus) {
+    if (checkHomingStatus)
+        clearHomingStatus(motorId);
     if (!isBrakeDisEngaged(motorId)) {
         return false;
     }

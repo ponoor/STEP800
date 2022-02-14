@@ -29,7 +29,8 @@ bool getBool(OSCMessage &msg, uint8_t offset);
 
 void setBrake(uint8_t motorId, bool state);
 bool isBrakeDisEngaged(uint8_t motorId);
-bool checkMotionStartConditions(uint8_t motorId, bool dir);
+void clearHomingStatus(uint8_t motorId);
+bool checkMotionStartConditions(uint8_t motorId, bool dir, bool checkHomingStatus = true);
 void sendCommandError(uint8_t motorID, uint8_t errorNum);
 
 template <class T>

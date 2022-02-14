@@ -1835,13 +1835,13 @@ void move(OSCMessage& msg, int addrOffset) {
     steps = abs(steps);
     if(isCorrectMotorId(motorID)) {
         motorID -= MOTOR_ID_FIRST;
-        if (checkMotionStartConditions(motorID, dir)) {
+        if (checkMotionStartConditions(motorID, dir, false)) {
             stepper[motorID].move(dir, steps);
         }
     }
     else if (motorID == MOTOR_ID_ALL) {
         for (uint8_t i = 0; i < NUM_OF_MOTOR; i++) {
-            if (checkMotionStartConditions(i, dir)) {
+            if (checkMotionStartConditions(i, dir, false)) {
                 stepper[i].move(dir, steps);
             }
         }
@@ -1854,14 +1854,14 @@ void goTo(OSCMessage& msg, int addrOffset) {
     if(isCorrectMotorId(motorID)) {
         motorID -= MOTOR_ID_FIRST;
         dir = checkGoToDirection(motorID, pos);
-        if (checkMotionStartConditions(motorID, dir)) {
+        if (checkMotionStartConditions(motorID, dir, false)) {
             stepper[motorID].goTo(pos);
         }
     }
     else if (motorID == MOTOR_ID_ALL) {
         for (uint8_t i = 0; i < NUM_OF_MOTOR; i++) {
             dir = checkGoToDirection(i, pos);
-            if (checkMotionStartConditions(i, dir)) {
+            if (checkMotionStartConditions(i, dir, false)) {
                 stepper[i].goTo(pos);
             }
         }
@@ -1873,13 +1873,13 @@ void goToDir(OSCMessage& msg, int addrOffset) {
     int32_t pos = getInt(msg, 2);
     if(isCorrectMotorId(motorID)) {
         motorID -= MOTOR_ID_FIRST;
-        if (checkMotionStartConditions(motorID, dir)) {
+        if (checkMotionStartConditions(motorID, dir, false)) {
             stepper[motorID].goToDir(dir, pos);
         }
     }
     else if (motorID == MOTOR_ID_ALL) {
         for (uint8_t i = 0; i < NUM_OF_MOTOR; i++) {
-            if (checkMotionStartConditions(i, dir) )
+            if (checkMotionStartConditions(i, dir, false) )
                 stepper[i].goToDir(dir, pos);   
         }
     }
@@ -2002,14 +2002,14 @@ void goHome(OSCMessage& msg, int addrOffset) {
     if(isCorrectMotorId(motorID)) {
         motorID -= MOTOR_ID_FIRST;
         dir = checkGoToDirection(motorID, 0);
-        if (checkMotionStartConditions(motorID, dir)) {
+        if (checkMotionStartConditions(motorID, dir, false)) {
             stepper[motorID].goHome();
         }   
     }
     else if (motorID == MOTOR_ID_ALL) {
         for (uint8_t i = 0; i < NUM_OF_MOTOR; i++) {
             dir = checkGoToDirection(i, 0);
-            if (checkMotionStartConditions(i, dir)) {
+            if (checkMotionStartConditions(i, dir, false)) {
                 stepper[i].goHome();
             }
         }
@@ -2021,14 +2021,14 @@ void goMark(OSCMessage& msg, int addrOffset) {
     if(isCorrectMotorId(motorID)) {
         motorID -= MOTOR_ID_FIRST;
         dir = checkGoToDirection(motorID, stepper[motorID].getMark());
-        if (checkMotionStartConditions(motorID, dir)) {
+        if (checkMotionStartConditions(motorID, dir, false)) {
             stepper[motorID].goMark();
         }
     }
     else if (motorID == MOTOR_ID_ALL) {
         for (uint8_t i = 0; i < NUM_OF_MOTOR; i++) {
             dir = checkGoToDirection(i, stepper[i].getMark());
-            if (checkMotionStartConditions(i, dir)) {
+            if (checkMotionStartConditions(i, dir, false)) {
                 stepper[i].goMark();
             }
         }
@@ -2069,28 +2069,43 @@ void resetPos(OSCMessage& msg, int addrOffset) {
         }
     }
 }
-void softStop(OSCMessage& msg, int addrOffset) {
+
+void softStop(OSCMessage &msg, int addrOffset)
+{
     uint8_t motorID = getInt(msg, 0);
-    if(isCorrectMotorId(motorID)) {
-        isServoMode[motorID - MOTOR_ID_FIRST] = false;
-        stepper[motorID - MOTOR_ID_FIRST].softStop();
+    if (isCorrectMotorId(motorID))
+    {
+        uint8_t motorId = motorID - MOTOR_ID_FIRST;
+        isServoMode[motorId] = false;
+        clearHomingStatus(motorId);
+        stepper[motorId].softStop();
     }
-    else if (motorID == MOTOR_ID_ALL) {
-        for (uint8_t i = 0; i < NUM_OF_MOTOR; i++) {
+    else if (motorID == MOTOR_ID_ALL)
+    {
+        for (uint8_t i = 0; i < NUM_OF_MOTOR; i++)
+        {
             isServoMode[i] = false;
+            clearHomingStatus(i);
             stepper[i].softStop();
         }
     }
 }
-void hardStop(OSCMessage& msg, int addrOffset) {
+void hardStop(OSCMessage &msg, int addrOffset)
+{
     uint8_t motorID = getInt(msg, 0);
-    if(isCorrectMotorId(motorID)) {
-        isServoMode[motorID - MOTOR_ID_FIRST] = false;
-        stepper[motorID - MOTOR_ID_FIRST].hardStop();
+    if (isCorrectMotorId(motorID))
+    {
+        uint8_t motorId = motorID - MOTOR_ID_FIRST;
+        isServoMode[motorId] = false;
+        clearHomingStatus(motorId);
+        stepper[motorId].hardStop();
     }
-    else if (motorID == MOTOR_ID_ALL) {
-        for (uint8_t i = 0; i < NUM_OF_MOTOR; i++) {
+    else if (motorID == MOTOR_ID_ALL)
+    {
+        for (uint8_t i = 0; i < NUM_OF_MOTOR; i++)
+        {
             isServoMode[i] = false;
+            clearHomingStatus(i);
             stepper[i].hardStop();
         }
     }
@@ -2098,6 +2113,7 @@ void hardStop(OSCMessage& msg, int addrOffset) {
 
 void softHiZ(uint8_t motorId) {
     isServoMode[motorId] = false;
+    clearHomingStatus(motorId);
     if (electromagnetBrakeEnable[motorId]) {
         if (motorStatus[motorId] == 0) { // motor stopped
             activate(motorId, false);
@@ -2124,17 +2140,19 @@ void softHiZ(OSCMessage& msg, int addrOffset) {
 void hardHiZ(OSCMessage& msg, int addrOffset) {
     uint8_t motorID = getInt(msg, 0);
     if(isCorrectMotorId(motorID)) {
-        motorID -= MOTOR_ID_FIRST;
-        isServoMode[motorID] = false;
-        if (electromagnetBrakeEnable[motorID]) {
-            activate(motorID, false);
+        uint8_t motorId = motorID - MOTOR_ID_FIRST;
+        isServoMode[motorId] = false;
+        clearHomingStatus(motorId);
+        if (electromagnetBrakeEnable[motorId]) {
+            activate(motorId, false);
         } else {
-            stepper[motorID].hardHiZ();
+            stepper[motorId].hardHiZ();
         }
     }
     else if (motorID == MOTOR_ID_ALL) {
         for (uint8_t i = 0; i < NUM_OF_MOTOR; i++) {
             isServoMode[i] = false;
+            clearHomingStatus(i);
             if (electromagnetBrakeEnable[i]) {
               activate(i, false);
             } else {
@@ -2173,6 +2191,8 @@ void activate(uint8_t motorId, bool state) {
             } else {
                 setBrake(motorId, LOW);
                 brakeStatus[motorId] = BRAKE_MOTORHIZ_WAITING;
+                isServoMode[motorId] = false;
+                clearHomingStatus(motorId);
                 brakeTransitionTrigTime[motorId] = millis();
             }    
         }
@@ -2198,6 +2218,8 @@ void free(uint8_t motorId) {
         setBrake(motorId, HIGH);
         stepper[motorId].hardHiZ();
         brakeStatus[motorId] = BRAKE_DISENGAGED;
+        isServoMode[motorId] = false;
+        clearHomingStatus(motorId);
     } else {
         sendCommandError(motorId + MOTOR_ID_FIRST, ERROR_COMMAND_IGNORED);
     }
@@ -2244,6 +2266,7 @@ void enableServoMode(uint8_t motorId, bool enable) {
         reportMotorStatus[motorId] = false;
         reportDir[motorId] = false;
         stepper[motorId].hardStop();
+        clearHomingStatus(motorId);
     }
     else {
         stepper[motorId].softStop();
