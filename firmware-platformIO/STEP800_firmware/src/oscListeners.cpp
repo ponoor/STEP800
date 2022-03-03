@@ -464,8 +464,8 @@ void setPositionListReportInterval(OSCMessage& msg, int addrOffset) {
 void getHomeSw(OSCMessage& msg, int addrOffset) {
     uint8_t motorID = getInt(msg, 0);
     if(isCorrectMotorId(motorID)) {
-        motorID -= motorID;
-        getHomeSw(motorID);
+        uint8_t motorId = motorID - MOTOR_ID_FIRST;
+        getHomeSw(motorId);
     }
     else if (motorID == MOTOR_ID_ALL) {
         for (uint8_t i = 0; i < NUM_OF_MOTOR; i++) {
@@ -479,8 +479,8 @@ void getHomeSw(uint8_t motorId) {
 // void getLimitSw(OSCMessage& msg, int addrOffset) {
 //     uint8_t motorID = getInt(msg, 0);
 //     if(isCorrectMotorId(motorID)) {
-//         motorID -= MOTOR_ID_FIRST;
-//         getLimitSw(motorID);
+//         uint8_t motorId = motorID - MOTOR_ID_FIRST;
+//         getLimitSw(motorId);
 //     }
 //     else if (motorID == MOTOR_ID_ALL) {
 //         for (uint8_t i = 0; i < NUM_OF_MOTOR; i++) {
