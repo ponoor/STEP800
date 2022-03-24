@@ -27,11 +27,13 @@ Forum: https://github.com/ponoor/step-series-support/discussions
 
 ## Repository Contents
 ### Firmware
+
+**Important Note:**
+The latest firmware is available at [STEP-series Universal Firmware](https://github.com/ponoor/step-series-universal-firmware) repository. Following directories and Releases are not maintained anymore. 
+
 These 2 folders contain same codes.
 - [/STEP800_firmware](https://github.com/ponoor/STEP800/tree/main/STEP800_firmware) : Arduino Sketch folder
 - [/firmware-platformIO/STEP800_firmware](https://github.com/ponoor/STEP800/tree/main/firmware-platformIO/STEP800_firmware) : PlatformIO folder
-
-Note: We are working on the "[Universal Firmware](https://github.com/ponoor/step-series-universal-firmware)" which covers all STEP series board. A development of each firmware (above) will be terminated soon.
 
 ### Hardware
 [/hardware](https://github.com/ponoor/STEP800/tree/main/hardware) : Eagle design files, BOM lists, and a schematics PDF
