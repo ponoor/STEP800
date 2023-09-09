@@ -34,7 +34,7 @@ FlashStorage(storage, String);
     #define SCK3	0u // SERCOM2/PAD[3]
     #define LATCH3	A5
     // Shift registers SPI
-    extern SPIClass SPI3;
+    extern SPIClassSAMD SPI3;
 
     // W5500
     #define W5500_RESET_PIN A3
@@ -43,9 +43,9 @@ FlashStorage(storage, String);
 
 const uint8_t auxPin[8] = {7u,1u,A1,6u,9u,38u,SCL,SDA};
 #define NUM_OF_MOTOR   (8)
-SPIClass L6470SPI(&sercom3, L6470_MISO, L6470_SCK, L6470_MOSI, SPI_PAD_0_SCK_3, SERCOM_RX_PAD_2);// MISO/SCK/MOSI pins
+SPIClassSAMD L6470SPI(&sercom3, L6470_MISO, L6470_SCK, L6470_MOSI, SPI_PAD_0_SCK_3, SERCOM_RX_PAD_2);// MISO/SCK/MOSI pins
 
-SPIClass SPI3(&sercom2, MISO3, SCK3, MOSI3, SPI_PAD_2_SCK_3, SERCOM_RX_PAD_1);
+SPIClassSAMD SPI3(&sercom2, MISO3, SCK3, MOSI3, SPI_PAD_2_SCK_3, SERCOM_RX_PAD_1);
 
 
 // L6470
