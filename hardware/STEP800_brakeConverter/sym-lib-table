@@ -1,0 +1,4 @@
+(sym_lib_table
+  (version 7)
+  (lib (name "STEP800_brakeConverter_Library")(type "KiCad")(uri "${KIPRJMOD}/STEP800_brakeConverter_Library.kicad_sym")(options "")(descr ""))
+)
