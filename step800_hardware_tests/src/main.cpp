@@ -349,7 +349,7 @@ bool L6470Test()
       showBoolResult(!busyF);
       if (busyF == 1)
       {
-        p("  The test motor motion command can't excute.\n");
+        p("  The test motor motion command can't execute.\n");
         result = false;
       }
     }
